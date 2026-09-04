@@ -107,3 +107,7 @@ For local checks, keep the browser preview database separate from the disposable
 ## Video-only examples — 2026-09-04
 
 Replaced full X post widgets with native video players in the library and lesson preview at the owner’s request. The catalogue now holds verified remote MP4 URLs, posters, and aspect ratios; author credits, source links, and discussion IDs are preserved. No media is copied to our server. Content checks, JavaScript parsing, and HEAD requests for both videos and posters passed. X media URLs may need refreshing if the upstream source changes.
+
+## Playback fix — 2026-09-04
+
+Reproduced native-player failure: X returned 403 to video GET/range requests carrying the course Referer, although HEAD returned 200. The same public media returned 206 without a cross-origin Referer. Set the page and server referrer policy to `same-origin`; source attribution remains visible. Local browser playback reached readyState 4 and advancing currentTime. Future video checks must include actual playback, not HEAD alone.

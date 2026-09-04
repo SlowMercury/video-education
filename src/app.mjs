@@ -11,7 +11,7 @@ const publicFiles = new Map([
   ['/assets/discussions.css', ['assets/discussions.css', 'text/css']],
   ['/assets/discussions.js', ['assets/discussions.js', 'text/javascript']]
 ]);
-const headers = { 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'DENY' };
+const headers = { 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'X-Frame-Options': 'DENY' };
 
 function send(request, response, status, data, extra = {}) {
   const body = JSON.stringify(data).replace(/</g, '\\u003c');
