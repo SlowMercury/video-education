@@ -1,6 +1,6 @@
 # Video Education — implementation plan
 
-Updated: 4 September 2026. Status: **Runs 1–3 complete; Run 4 prepared for publication**. The detailed Blender lesson, content workflow, moderation/recovery guides, restore drill, and Railway configuration migration are implemented. Real feedback from friends and a generated result for the practice prompts are still awaited.
+Updated: 4 September 2026. Status: **Runs 1–3 complete; Run 4 implementation published**. The detailed Blender lesson, content workflow, moderation/recovery guides, restore drill, and Railway configuration migration are implemented and verified. The pilot/feedback portion remains open: real feedback from friends and a generated result for the practice prompts are still awaited.
 
 Repository: [SlowMercury/video-education](https://github.com/SlowMercury/video-education)
 

@@ -4,7 +4,7 @@ Updated: 4 September 2026.
 
 ## Current status
 
-**Runs 1–3 are complete; Run 4 is being published.** The detailed Blender lesson, stable example links, content and operations guides, actual backup restore, sample-data round trip, and Railway IaC migration are ready. Nine integration scenarios pass. No real feedback from friends has been received, and the new practice prompts have not yet been tested in a video generator.
+**Runs 1–3 are complete; Run 4 implementation is live.** The detailed Blender lesson, stable example links, content and operations guides, actual backup restore, sample-data round trip, and Railway IaC migration are verified. Nine integration scenarios pass. The pilot/feedback portion remains open: no real feedback from friends has been received, and the new practice prompts have not yet been tested in a video generator.
 
 ## Run 4 work
 
@@ -16,7 +16,11 @@ Updated: 4 September 2026.
 - A separate local dump/restore with a deleted parent, visitor reply, and owner reply preserved every row exactly and passed application API reading. See `backup/RESTORE-CHECK.md`. No production messages were modified or created for these checks.
 - Imported the full existing Railway environment into `.railway/railway.ts`, preserving secrets with `preserve()`. Removed legacy `railway.json`; pinned the Railway SDK as a development dependency. CLI apply succeeded and a subsequent plan reported the configuration up to date, without resource deletions or variable changes.
 - Browser checks: inline video rendered, two lesson prompt blocks visible, ten discussion mounts, mobile layout without horizontal overflow, library view and stable/legacy anchors present. Nine backend integration scenarios and the content check pass.
-- Remaining launch gate: publish the commit and verify the live page and infrastructure configuration. Remaining content/pilot work: receive real friend feedback and the actual result/inputs from the practice exercise. Questions were asked; no answers have arrived yet.
+- Verified application revision: `a9d0ba687f9531777e95700f90189307d9bb572e`.
+- Web deployment: `ee6e9368-be55-4991-95a8-4a913f3e4452`, `SUCCESS`; backup service deployment: `1dca5535-9c57-44ce-ab48-2708b25409e4`, `SUCCESS`. PostgreSQL was not redeployed.
+- Public checks passed: exact new HTML, `/healthz` returned `ok`, all ten discussions remain available, and `.railway/railway.ts` is not exposed by the web server. The CLI plan reports that infrastructure configuration is up to date.
+- The next commit records this checkpoint only; application source remains the verified revision above.
+- Remaining content/pilot work: receive real friend feedback and the actual result/inputs from the practice exercise. Questions were asked; no answers have arrived yet. Do not describe the pilot or generated-prompt validation as completed.
 
 ## Run 3 checkpoint
 
@@ -34,7 +38,7 @@ Updated: 4 September 2026.
 - Production redeployment used for the persistence check: `18864f97-2c0c-4564-a761-807e91c89a9e`, `SUCCESS`.
 - Public checks confirmed exact HTML/JS/CSS delivery, ten catalogue entries, secure owner cookies, visitor and owner replies, idempotent retries, discussion isolation, and unauthorized deletion rejection. A separate visitor browser successfully posted a reply and showed the authenticated author's badge.
 - All five verification messages, reply links, and the test owner session survived redeployment. Their names/text were subsequently removed, no test branches remained visible, and the owner test session was revoked.
-- The commit containing this checkpoint changes documentation only; application source matches the verified revision above. Run 4 has not started.
+- At the Run 3 checkpoint, application source matched the verified revision above and Run 4 had not started. The current revision is recorded in the Run 4 section.
 
 ## Run 2 checkpoint
 
@@ -88,7 +92,7 @@ The Run 1 verification above is historical. Consult the Run 3 checkpoint and lat
 
 ## Next step
 
-After verifying the Run 4 deployment, collect feedback using `FEEDBACK.md`. Ask the user for actual student observations and, when available, the practice video's first frame, reference, exact prompt, model/mode, and result. Refine concrete issues and turn the exercise into a verified result walkthrough. Do not repeat the completed backup restore or configuration migration without a new reason.
+Collect feedback using `FEEDBACK.md`. Ask the user for actual student observations and, when available, the practice video's first frame, reference, exact prompt, model/mode, and result. Refine concrete issues and turn the exercise into a verified result walkthrough. Do not repeat the completed backup restore or configuration migration without a new reason.
 
 ## Agreed discussion behavior
 
