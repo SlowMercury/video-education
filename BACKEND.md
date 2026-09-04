@@ -89,6 +89,6 @@ Nine integration scenarios verify catalogue and pagination, reply isolation, per
 
 Database: Railway PostgreSQL 18 with a persistent volume, reached through private networking. The separate `database-backups` service creates daily logical dumps in the private `discussion-backups` bucket, retaining 14 days. It runs at 03:00 UTC (06:00 Moscow). This uses the current plan; built-in volume snapshots and PITR are not enabled. See `backup/README.md` for verification and restore instructions.
 
-Railway reported that `railway.json` remains supported until 1 December 2026. Before that date, migrate deployment configuration to Railway's infrastructure-as-code format; include this in Run 4 maintenance.
+Deployment settings are managed in `.railway/railway.ts`; the legacy `railway.json` was removed in Run 4. Use `railway config plan` and `railway config apply` to manage infrastructure. Moderation and recovery instructions are in `OPERATIONS.md`; the verified restore drill is recorded in `backup/RESTORE-CHECK.md`.
 
 References: [parameterized PostgreSQL queries](https://node-postgres.com/features/queries), [database transactions](https://node-postgres.com/apis/pool), [Railway edge headers](https://docs.railway.com/networking/public-networking/specs-and-limits), and [Railway guidance on forwarded client IPs](https://station.railway.com/questions/which-header-should-i-rely-on-for-real-c-d78a6f96).

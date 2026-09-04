@@ -4,7 +4,19 @@ Updated: 4 September 2026.
 
 ## Current status
 
-**Runs 1–3 are complete.** Public discussions are enabled beneath all eight lessons and both X examples. Visitors can post and reply with a name; the owner can sign in, answer with an author badge, and delete comments. Nine integration scenarios and the browser checks pass. Comments and the owner session survived a production redeployment. All five verification messages were removed from public discussions afterward.
+**Runs 1–3 are complete; Run 4 is being published.** The detailed Blender lesson, stable example links, content and operations guides, actual backup restore, sample-data round trip, and Railway IaC migration are ready. Nine integration scenarios pass. No real feedback from friends has been received, and the new practice prompts have not yet been tested in a video generator.
+
+## Run 4 work
+
+- Expanded lesson 05 using the existing Reid Hannaford example, with an inline official X embed, an original six-second practice scene, first-frame and video prompt examples, evaluation criteria, and troubleshooting.
+- Clearly distinguished the creator's confirmed workflow from the original practice prompts. No creator prompt, Blender file, generation settings, or tested exercise result was invented.
+- Added stable `#example-POST_ID` links; retained the two original numbered anchors. The eight lesson and two video discussion IDs are unchanged.
+- Added `CONTENT.md`, `OPERATIONS.md`, `FEEDBACK.md`, `npm run check:content`, and a local-only read-only `npm run check:restore` verifier.
+- Restored the actual 10,638-byte private backup into a new local PostgreSQL database. Eight lessons, two examples, schema, constraints, and sequences verified. It contains zero comments because it predates their public launch.
+- A separate local dump/restore with a deleted parent, visitor reply, and owner reply preserved every row exactly and passed application API reading. See `backup/RESTORE-CHECK.md`. No production messages were modified or created for these checks.
+- Imported the full existing Railway environment into `.railway/railway.ts`, preserving secrets with `preserve()`. Removed legacy `railway.json`; pinned the Railway SDK as a development dependency. CLI apply succeeded and a subsequent plan reported the configuration up to date, without resource deletions or variable changes.
+- Browser checks: inline video rendered, two lesson prompt blocks visible, ten discussion mounts, mobile layout without horizontal overflow, library view and stable/legacy anchors present. Nine backend integration scenarios and the content check pass.
+- Remaining launch gate: publish the commit and verify the live page and infrastructure configuration. Remaining content/pilot work: receive real friend feedback and the actual result/inputs from the practice exercise. Questions were asked; no answers have arrived yet.
 
 ## Run 3 checkpoint
 
@@ -76,7 +88,7 @@ The Run 1 verification above is historical. Consult the Run 3 checkpoint and lat
 
 ## Next step
 
-Start Run 4 from `PLAN.md`: gather feedback from friends, make one complete model lesson from verified source material, document the repeatable process for adding X examples, and perform a full restore drill using a disposable database. Also migrate the deprecated Railway configuration before its reported 1 December 2026 deadline. Ask for missing teaching material or feedback when needed; do not invent a creator's prompts or settings.
+After verifying the Run 4 deployment, collect feedback using `FEEDBACK.md`. Ask the user for actual student observations and, when available, the practice video's first frame, reference, exact prompt, model/mode, and result. Refine concrete issues and turn the exercise into a verified result walkthrough. Do not repeat the completed backup restore or configuration migration without a new reason.
 
 ## Agreed discussion behavior
 

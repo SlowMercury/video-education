@@ -9,10 +9,15 @@
   "scripts": {
     "start": "node server.mjs",
     "migrate": "node scripts/migrate.mjs",
+    "check:content": "node scripts/check-content.mjs",
+    "check:restore": "node scripts/verify-restored-database.mjs",
     "test": "node --test test/*.test.mjs",
     "dev": "node --env-file=.env server.mjs"
   },
   "dependencies": {
     "pg": "8.23.0"
+  },
+  "devDependencies": {
+    "railway": "3.11.0"
   }
 }

@@ -17,6 +17,9 @@
     @media(min-width:1050px){.example-list.has-examples{max-width:900px}}@media(max-width:1000px){.shell{gap:36px;grid-template-columns:190px minmax(0,1fr)}.example-layout{grid-template-columns:1fr}.example-notes{max-width:600px}}@media(max-width:760px){html{scroll-padding-top:85px}.topbar-inner{min-height:65px;padding:12px 20px}.top-links{gap:16px;font-size:.85rem}.shell{display:block;padding:30px 22px 0}.sidebar{display:none}.mobile-contents{display:block;margin-bottom:30px;border-bottom:1px solid var(--line);padding-bottom:16px}.mobile-contents summary{cursor:pointer;font-weight:600}.mobile-contents ol{font-size:.95rem}.intro{padding-bottom:28px}.intro p{font-size:1rem}.lesson{padding:34px 0}.terms{grid-template-columns:1fr}.prompt{padding:17px;font-size:.85rem}.footer{padding:22px;flex-wrap:wrap}.empty-examples{padding:22px}.tools td:first-child{width:46%}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}@media print{.topbar,.sidebar,.mobile-contents,.skip{display:none}.shell{display:block;max-width:none;padding:0}body{font-size:11pt}.lesson{padding:20px 0}.intro{padding:0}h1{font-size:28pt}h2{font-size:20pt}.prompt,.practice{break-inside:avoid}.footer{padding:16px 0}.embed-mount:empty{display:none}}
     .topbar{background:rgba(16,17,19,.97)}.top-links a[aria-current="page"]{color:var(--ink)}.top-links a:hover{color:var(--ink)}.skip{background:var(--accent);color:#101113}.empty-examples{border-color:#454c57}.js #examples{display:none}.js .library-view #examples{display:block}.library-view .sidebar,.library-view .mobile-contents,.library-view .intro,.library-view .lesson:not(#examples){display:none}.library-view .shell{display:block;max-width:1140px}.library-view #examples{border-top:0;padding-top:0}.library-view #examples>p{max-width:710px;color:var(--muted)}.library-view #examples h1{font-size:clamp(2.3rem,5vw,3.8rem);margin-bottom:20px}.library-view .example{padding:40px 0 50px}.library-view .example>h3{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:24px}.library-view .example-layout{grid-template-columns:minmax(0,560px) minmax(220px,1fr);gap:48px}.library-view .example-notes{padding-top:7px}.example-author{font-size:.85rem;color:var(--muted);margin-top:12px}.lesson-examples-link{display:inline-block;margin-top:25px;font-size:.95rem}@media(max-width:880px){.library-view .example-layout{grid-template-columns:1fr;gap:22px}.library-view .example-media{max-width:560px;width:100%}.library-view .example{padding:30px 0}.library-view .shell{padding-top:34px}}@media print{:root{--paper:#fff;--ink:#111;--muted:#444;--line:#ddd;--wash:#f6f6f6;--accent:#222;--accent-wash:#eee}.js #examples{display:block}.library-view .intro,.library-view .lesson:not(#examples){display:block}.example-layout,.library-view .example-layout{display:block}}
   </style>
+  <style>
+    .lesson-demo{max-width:560px;margin:28px 0 34px}.lesson-demo figcaption{color:var(--muted);font-size:.82rem;line-height:1.6;margin-top:12px}.lesson-demo .embed-status{margin-bottom:10px}.lesson-part{margin-top:36px}.lesson-part h3{font-size:1.3rem}.lesson-meta{display:flex;gap:8px 20px;flex-wrap:wrap;color:var(--muted);font-size:.83rem;margin:18px 0 26px}.lesson-timeline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:22px 0}.lesson-timeline>div{padding-top:14px;border-top:2px solid var(--line)}.lesson-timeline strong{display:block;color:var(--accent);font-size:.84rem;margin-bottom:7px}.lesson-timeline p{font-size:.9rem;margin:0}.lesson-checks{padding-left:1.3em}.lesson-checks li{font-size:.94rem}.lesson-troubleshooting{margin:20px 0}.lesson-troubleshooting div{padding:14px 0;border-top:1px solid var(--line)}.lesson-troubleshooting dt{font-weight:650;margin-bottom:4px}.lesson-troubleshooting dd{color:var(--muted);font-size:.92rem;margin:0}.lesson-sources{font-size:.8rem;color:var(--muted);margin:26px 0 0}@media(max-width:560px){.lesson-timeline{grid-template-columns:1fr;gap:14px}.lesson-part{margin-top:30px}}
+  </style>
 </head>
 <body>
   <a class="skip" href="#main">Перейти к материалу</a>
@@ -79,11 +82,48 @@
       </div></section>
 
       <section class="lesson" id="motion"><div class="lesson-top"><span class="chapter-number">05</span>Управление движением</div><h2>Покажите траекторию через референс</h2><div class="lesson-body">
-        <p>Если положение героя или движение камеры важно для сцены, подготовьте простой видеореференс. В Blender можно собрать черновую сцену и показать, как объекты должны перемещаться.</p>
-        <p>Для такого референса достаточно простых форм. Его задача — объяснить расположение объектов, темп действия и движение камеры.</p>
-        <ol class="steps"><li>Разместите героя и основные объекты.</li><li>Задайте траекторию героя и камеры.</li><li>Сделайте короткую черновую анимацию.</li><li>Передайте её вместе с остальными материалами в модель, которая поддерживает видеореференсы.</li></ol>
-        <div class="practice"><p class="practice-label">Попробуйте</p><p>Сравните одну сцену с текстовым описанием движения и с видеореференсом. Посмотрите, насколько точно сохраняются траектория и момент действия.</p></div>
-      </div><a class="lesson-examples-link" href="#examples">Разборы сцен с референсами из Blender →</a></section>
+        <p>Когда важны траектория и момент действия, покажите их в черновой анимации. В этом уроке вы соберёте короткий референс в Blender и сравните его с результатом генерации.</p>
+        <div class="lesson-meta"><span>Практика: один план, 6 секунд</span><span>Подготовка: <a href="#first-frame">первый кадр</a> и основы Blender</span></div>
+
+        <h3>Посмотрите, как работает приём</h3>
+        <p>В примере Reid Hannaford сложная сцена начинается с простых форм. Автор описывает три этапа: первый кадр в Midjourney, постановка движения в Blender и передача материалов в Seedance.</p>
+        <figure class="lesson-demo" data-example-preview="2070145120658137385"><figcaption>Reid Hannaford · 25 июня 2026 · <a href="https://x.com/reidhannaford/status/2070145120658137385" target="_blank" rel="noopener noreferrer">Открыть исходный пост ↗</a></figcaption></figure>
+        <p class="note">Посмотрите сначала на расположение объектов, затем — на движение камеры. Какие части замысла задаёт черновая сцена? Точные промпты и файл Blender автора здесь не предоставлены. Ниже — самостоятельное учебное упражнение по тому же принципу; его результат генерации пока не опубликован.</p>
+
+        <div class="lesson-part"><h3>1. Задайте простое действие</h3>
+          <p>Красный шар катится слева направо за низким прямоугольным блоком и останавливается с другой стороны. Камера неподвижна. Такая сцена позволяет отдельно проверить траекторию, перекрытие объектов и остановку.</p>
+          <div class="lesson-timeline" aria-label="План шестисекундной сцены"><div><strong>Начало</strong><p>Шар слева от блока. Видны пол и вся будущая траектория.</p></div><div><strong>Середина</strong><p>Шар проходит за блоком и на время частично скрывается.</p></div><div><strong>Финал</strong><p>Шар появляется справа и останавливается. Камера сохраняет ракурс.</p></div></div>
+        </div>
+
+        <div class="lesson-part"><h3>2. Соберите черновую сцену в Blender</h3>
+          <ol class="steps"><li>Добавьте плоскость пола, куб в роли низкого блока и сферу в роли шара. Поставьте камеру так, чтобы видеть начало и конец пути.</li><li>Задайте 24 кадра в секунду и диапазон 1–144: это шестисекундный ролик. На первом кадре сфера стоит слева от блока.</li><li>Добавьте ключевой кадр для положения сферы. На кадре 48 переместите её за левую часть блока, на 96 — за правую, на 120 — вправо от блока. В каждой позиции снова добавьте ключевой кадр. На 144 повторите конечную позицию для паузы.</li><li>Просмотрите движение через камеру. Поправьте высоту и путь: сфера должна оставаться на полу и проходить за блоком, не сквозь него. По ключевым положениям Blender рассчитывает промежуточные кадры; проверьте также скорость между ними.</li><li>Получите короткое видео из этой камеры. Для референса важны читаемые формы и действие; сложные материалы и детальная сцена не нужны.</li></ol>
+          <p class="note">Ключевой кадр сохраняет значение свойства в выбранный момент. В Blender можно выбрать объект и воспользоваться меню Object → Animation → Insert Keyframe; проверьте, что сохраняете нужные свойства, например положение.</p>
+        </div>
+
+        <div class="lesson-part"><h3>3. Подготовьте первый кадр и промпт</h3>
+          <p>Возьмите первый кадр черновой сцены как ориентир композиции. Создайте изображение с красным шаром слева и бетонным блоком в центре. Ракурс, пропорции и расположение объектов должны соответствовать началу референса.</p>
+          <p class="note">Учебный промпт для первого изображения; это пример для упражнения, а не промпт Reid Hannaford:</p>
+          <pre class="prompt" lang="en">A glossy red ball resting on a matte concrete floor, to the left of a low rectangular concrete block. Both objects and the full path from left to right fit inside the frame. Locked camera, eye-level three-quarter view, soft side lighting, realistic materials, no people, no text. Match the composition and object positions of the supplied reference frame.</pre>
+          <p>Перед генерацией видео подготовьте два материала: первое изображение и ролик движения из Blender. Выберите режим, который принимает оба типа референсов. Назначьте их роли в интерфейсе выбранного инструмента.</p>
+          <p class="note">Учебный промпт для видео. Если сервис использует специальные имена или теги референсов, подставьте их вместо описаний в скобках:</p>
+          <pre class="prompt" lang="en">Create a single continuous 6-second shot.
+Use [the first-frame image] for the initial composition, red ball, concrete block, materials and lighting.
+Use [the Blender reference video] for the ball's path, timing, occlusion and final stop.
+The red ball rolls from left to right behind the block, reappears on the right and comes to rest. Keep the camera locked. Preserve the ball's size, keep it in contact with the floor, and keep the block stationary. No cuts, no extra objects, no sudden jumps.</pre>
+        </div>
+
+        <div class="lesson-part"><h3>4. Сравните результат с замыслом</h3>
+          <p>Сначала сделайте вариант с первым изображением и текстом. Затем добавьте видеореференс, оставив прочие доступные настройки одинаковыми. Сравнение покажет, помогает ли референс именно вашей сцене; один удачный результат ещё не доказывает, что приём всегда работает лучше.</p>
+          <ul class="lesson-checks"><li>В начале шар и блок стоят там же, где в первом кадре?</li><li>Шар проходит за блоком в нужный момент, сохраняя размер и направление?</li><li>Контакт с полом выглядит естественно, без скольжения, прыжка или провала?</li><li>Камера остаётся неподвижной, а шар останавливается в конце?</li></ul>
+        </div>
+
+        <div class="lesson-part"><h3>Если результат не совпал</h3>
+          <dl class="lesson-troubleshooting"><div><dt>Шар перескакивает в начале</dt><dd>Сопоставьте первый кадр и начало референса. Исправьте разные позиции объектов или ракурс.</dd></div><div><dt>Траектория правильная, но движение неестественное</dt><dd>Проверьте скорость и контакт с полом в черновой сцене. Упростите путь и исправьте скачки между ключевыми кадрами.</dd></div><div><dt>Камера движется сама</dt><dd>Уберите анимацию камеры из референса и противоречащие ей указания из промпта. Повторите генерацию с одной конкретной правкой.</dd></div><div><dt>Референс почти не повлиял</dt><dd>Проверьте выбранный режим и роль загруженного видео. Затем сократите сцену до одного движения и сравните несколько вариантов в пределах своего бюджета.</dd></div></dl>
+        </div>
+
+        <div class="practice"><p class="practice-label">Ваша работа</p><p>Сохраните первый кадр, референс, текст промпта и две версии результата. Запишите модель и режим. Под этим уроком расскажите: какое движение получилось, где возникло расхождение и что вы измените в следующей попытке. Можно приложить ссылку на свой ролик.</p></div>
+        <p class="lesson-sources">Справка Blender: <a href="https://docs.blender.org/manual/en/4.5/animation/keyframes/editing.html" target="_blank" rel="noopener noreferrer">ключевые кадры</a> · <a href="https://docs.blender.org/manual/en/5.0/render/output/properties/frame_range.html" target="_blank" rel="noopener noreferrer">диапазон кадров</a>.</p>
+      </div><a class="lesson-examples-link" href="#examples">Больше примеров с референсами из Blender →</a></section>
 
       <section class="lesson" id="storyboard"><div class="lesson-top"><span class="chapter-number">06</span>Последовательность</div><h2>Разложите сцену на ключевые кадры</h2><div class="lesson-body">
         <p><strong>Storyboard, или раскадровка,</strong> — последовательность изображений, которая показывает развитие сцены. Она помогает заранее связать действие, ракурсы и переходы.</p>
@@ -215,7 +255,10 @@
         try {
           const post=parsePost(example.url);
           const chapter=Object.hasOwn(chapterNames,example.lesson)?example.lesson:null;
-          const article=element('article','example');article.id='example-'+(index+1);article.dataset.discussionId='x:'+post.id;
+          const article=element('article','example');article.id='example-'+post.id;article.dataset.discussionId='x:'+post.id;
+          // Keep the two original numbered links working; new links use the post ID.
+          const legacyIds={'2070145120658137385':'example-1','2071595581508563168':'example-2'};
+          if(legacyIds[post.id]){const alias=element('span');alias.id=legacyIds[post.id];article.append(alias);}
           article.append(element('p','example-kind',chapter?chapterNames[chapter]:'Разбор'));
           article.append(element('h3','',example.title||'Пример из X'));
           const layout=element('div','example-layout');
@@ -229,6 +272,13 @@
         } catch {console.warn('Пропущен пример с некорректной ссылкой на пост X:',index+1);}
       });
       if(pending.size){document.getElementById('examples-empty').hidden=true;library.classList.add('example-list','has-examples');}
+      document.querySelectorAll('[data-example-preview]').forEach(figure=>{
+        const id=figure.dataset.examplePreview;
+        const example=examples.find(item=>{try{return parsePost(item.url).id===id;}catch{return false;}});
+        if(!example)return;
+        const post=parsePost(example.url),mount=element('div','embed-mount'),status=element('p','embed-status','Загрузка примера из X…');
+        status.setAttribute('role','status');figure.prepend(status,mount);pending.set(figure,{post,mount,status});
+      });
       if ('IntersectionObserver' in window) {
         const lazy=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;const data=pending.get(entry.target);if(data){renderPost(data.post,data.mount,data.status);pending.delete(entry.target);}lazy.unobserve(entry.target);});},{rootMargin:'400px'});
         pending.forEach((_,article)=>lazy.observe(article));

@@ -8,7 +8,23 @@ The job checks the archive with `pg_restore --list`, verifies the uploaded objec
 
 Check the latest `database-backups` execution in Railway and look for “Backup complete”. A successful job is expected to exit, so it need not remain online between scheduled runs. The bucket's Files tab also shows the dated `.dump` objects.
 
-To restore, download a selected dump using authenticated bucket access. Restore into a new disposable database first with `pg_restore --no-owner --no-privileges --exit-on-error --dbname=<restore-database> <dump-file>`. Verify its catalogue, comment count, and sample discussions before planning a production restore. A full restore drill is scheduled for Run 4.
+## Restore drill
+
+Download the chosen `.dump` from the private bucket using authenticated access. Keep it outside the public source directory with access limited to your local user. Use PostgreSQL tools that can read the dump's version (the current job uses PostgreSQL 18).
+
+Create a new, empty local database. This example uses port 5432; replace it with your local instance's port. The name must end in `_restore_test` for the verifier:
+
+```sh
+createdb -h 127.0.0.1 -p 5432 video_education_restore_test
+pg_restore --no-owner --no-privileges --single-transaction --exit-on-error --dbname=postgresql://127.0.0.1:5432/video_education_restore_test /absolute/private/path/database.dump
+RESTORE_DATABASE_URL=postgresql://127.0.0.1:5432/video_education_restore_test npm run check:restore
+```
+
+Run the verifier from the repository root. It reads migration history, catalogue and comment counts, reply/discussion references, constraints, and the comment sequence. It refuses nonlocal databases, prints counts rather than message contents, and does not change the restored database. Do not use `--clean` or `--create` against the live database for a drill.
+
+Compare counts with what existed at the backup time, not with the current website. Check representative threads through a local application before planning a production switch. A backup taken before discussions opened can correctly contain zero comments.
+
+The actual archive restore and a separate sample-message round trip passed on 4 September 2026; see [RESTORE-CHECK.md](RESTORE-CHECK.md). Production recovery and owner-session revocation are described in [OPERATIONS.md](../OPERATIONS.md).
 
 These are daily logical backups, so recovery may lose changes made since the last successful daily run. Keep separate off-provider copies if the course later requires recovery from loss of the entire Railway account. Object storage and short backup executions incur usage charges under the current plan; no plan upgrade is required.
 

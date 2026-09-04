@@ -1,6 +1,6 @@
 # Video Education — implementation plan
 
-Updated: 4 September 2026. Status: **Runs 1–3 complete**. The public website, persistent discussions, owner moderation, and daily private backups are active. Integration and browser checks passed; comments survived production redeployment. Run 4 has not started.
+Updated: 4 September 2026. Status: **Runs 1–3 complete; Run 4 prepared for publication**. The detailed Blender lesson, content workflow, moderation/recovery guides, restore drill, and Railway configuration migration are implemented. Real feedback from friends and a generated result for the practice prompts are still awaited.
 
 Repository: [SlowMercury/video-education](https://github.com/SlowMercury/video-education)
 
@@ -70,7 +70,7 @@ Names are display labels, not verified identities. Remembering a visitor's name 
 
 At the end of each run, record completed work, validation results, the commit, deployment URL/status, Railway resource identifiers, any outstanding dependency, and the exact next step in the repository's progress file. Record environment variable names, never their secret values.
 
-Useful next instruction: **“Start Run 4 from the video-education plan.”**
+Useful next instruction: **“Use this feedback to refine the course: …”** Send a generated exercise result with its prompt and settings when available.
 
 ## Verified starting point before Run 1
 
