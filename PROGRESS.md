@@ -4,7 +4,25 @@ Updated: 4 September 2026.
 
 ## Current status
 
-**Runs 1 and 2 are complete; Run 3 is being published.** The discussion interface and owner login are implemented. Nine integration scenarios pass. Local browser checks passed for visitor posts, replies, owner login, deletion, pagination, mobile layout, and a connection failure with draft recovery. The deployment and public persistence checks are the remaining Run 3 gate.
+**Runs 1–3 are complete.** Public discussions are enabled beneath all eight lessons and both X examples. Visitors can post and reply with a name; the owner can sign in, answer with an author badge, and delete comments. Nine integration scenarios and the browser checks pass. Comments and the owner session survived a production redeployment. All five verification messages were removed from public discussions afterward.
+
+## Run 3 checkpoint
+
+- Public website: [Video Education](https://video-education-production.up.railway.app).
+- Owner login: [Вход для автора](https://video-education-production.up.railway.app/#owner), also linked in the footer. The generated owner password remains in the private local `video-education-owner-access.json` file outside the public repository; its login instructions are updated.
+- `DISCUSSIONS_ENABLED=true` is configured on the web service. The existing PostgreSQL volume and daily private backups remain active.
+- Added ten discussion areas, lazy loading, pagination, reply context, dates, authenticated author badges, remembered visitor names, and owner login/logout. Messages render as plain text.
+- Failed submissions retain the draft and reuse an unchanged request's identifier. Submit controls prevent concurrent submissions. Owner authentication is refreshed before writes; expired owner requests cannot fall back to guest posting.
+- Deletion requires confirmation. Deleted ancestors remain only when live replies need their context, including across pages; entirely deleted branches disappear.
+- Nine integration scenarios passed on the disposable local PostgreSQL database. These cover data persistence, concurrent retry deduplication, reply isolation, owner authorization, CSRF, expiry/logout, nested deletions, input validation, rate limits, private-file restrictions, and server startup/migrations.
+- Local browser verification: visitor post and reply, literal HTML-looking text, incorrect and correct owner passwords, author reply, deletion cancellation and confirmation, retained replies, logout, all ten mounts, responsive layout without horizontal overflow, and 22 comments across two pages with a late reply attached to its parent.
+- A stopped local server produced a connection error; the draft stayed editable, and retry after restart published exactly one message. Both official X widgets also rendered during the interface check.
+- Verified application revision: `56fe147a4877493899f354a61ff88c9ae68747bf`.
+- Initial Run 3 production deployment: `57c68cbc-b98b-44b5-9aad-b5f57520bd4e`, `SUCCESS`.
+- Production redeployment used for the persistence check: `18864f97-2c0c-4564-a761-807e91c89a9e`, `SUCCESS`.
+- Public checks confirmed exact HTML/JS/CSS delivery, ten catalogue entries, secure owner cookies, visitor and owner replies, idempotent retries, discussion isolation, and unauthorized deletion rejection. A separate visitor browser successfully posted a reply and showed the authenticated author's badge.
+- All five verification messages, reply links, and the test owner session survived redeployment. Their names/text were subsequently removed, no test branches remained visible, and the owner test session was revoked.
+- The commit containing this checkpoint changes documentation only; application source matches the verified revision above. Run 4 has not started.
 
 ## Run 2 checkpoint
 
@@ -14,7 +32,7 @@ Updated: 4 September 2026.
 - Implemented catalogue, pagination, comments, replies, idempotency, owner sessions, deletion, validation, and persistent rate limits. See `BACKEND.md`.
 - Owner password was generated and saved in a private local file outside the repository. Only the scrypt hash is configured on Railway.
 - Configured variables: `DATABASE_URL`, `NODE_ENV`, `SITE_ORIGIN`, `OWNER_PASSWORD_HASH`, `OWNER_DISPLAY_NAME`, `RATE_LIMIT_SECRET`, `DISCUSSIONS_ENABLED`, `TRUST_RAILWAY_PROXY`.
-- `DISCUSSIONS_ENABLED=false` keeps public API use closed until the UI and backups are ready.
+- At the Run 2 checkpoint, `DISCUSSIONS_ENABLED=false` kept the API closed. Run 3 enabled it after the interface and backups were ready.
 - Built-in scheduled volume backups require Pro. The implemented alternative uses daily logical dumps to a private bucket on the current plan. No account upgrade was made.
 - Backup service: `database-backups` — `6203795d-532c-47ee-a814-640cf0777e31`; root directory `/backup`; schedule `0 3 * * *` (06:00 Moscow); retention 14 days; no public domain.
 - Private bucket: `discussion-backups` — `77c91362-f2e9-4032-a031-d92711250976`, region `sjc`. Credentials are Railway reference variables confined to the backup service.
@@ -54,18 +72,18 @@ The first application deployment succeeded on 4 September 2026:
 
 The HTML scripts and server syntax were also checked locally. Production checks cover delivery of the page and server behavior; they do not verify playback inside X's externally hosted video widgets.
 
-The commit containing this checkpoint changes documentation only; the application source is identical to the verified revision above. Consult the latest Git history and Railway deployment status when resuming.
+The Run 1 verification above is historical. Consult the Run 3 checkpoint and latest Git history for the current application revision.
 
 ## Next step
 
-Start Run 3: build the public discussion interface and protected owner login screen using `BACKEND.md`. Verify posting, replying, deletion, error states, and mobile layout, then enable `DISCUSSIONS_ENABLED`. Backups are already configured. The owner credential is saved locally outside the public repository for use in this run.
+Start Run 4 from `PLAN.md`: gather feedback from friends, make one complete model lesson from verified source material, document the repeatable process for adding X examples, and perform a full restore drill using a disposable database. Also migrate the deprecated Railway configuration before its reported 1 December 2026 deadline. Ask for missing teaching material or feedback when needed; do not invent a creator's prompts or settings.
 
 ## Agreed discussion behavior
 
-Visitors enter a name without signing in. Everyone can read, post immediately, and reply under each lesson or example. The owner can reply with an authenticated badge and delete comments. The backend will use PostgreSQL and protected owner sessions.
+Visitors enter a name without signing in. Everyone can read, post immediately, and reply under each lesson or example. The owner can reply with an authenticated badge and delete comments. PostgreSQL and protected owner sessions provide persistence and moderation.
 
 ## Maintenance
 
 Follow `BACKEND.md` for local database and environment setup, then use `npm run dev`. Edit the X example catalogue in `index.html` following `README.md`. Deploy changes from `main` and check `/healthz` after deployment. Use the backup service's Cron Runs page and “Run now” for an on-demand backup; successful deployment of the schedule alone does not execute a backup. Keep credentials in Railway variables; record only variable names in project documentation.
 
-In Run 4, perform the full restore drill and migrate the deprecated Railway config file before its reported 1 December 2026 support deadline. The Run 2 checkpoint is followed by a documentation-only commit; the verified runtime source remains the revision listed above.
+For local checks, keep the browser preview database separate from the disposable `_test` database. The Run 3 preview used port 4174 and a local-only owner password. Both the preview server and local PostgreSQL cluster are stopped when verification finishes. No production credentials or raw source messages are committed or included in the source archive.

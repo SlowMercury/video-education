@@ -1,12 +1,12 @@
 # Video Education — implementation plan
 
-Updated: 4 September 2026. Status: **Runs 1 and 2 complete**. The backend is deployed, integration tests pass, and daily private backups are configured with the first dump verified. Runs 3–4 have not started.
+Updated: 4 September 2026. Status: **Runs 1–3 complete**. The public website, persistent discussions, owner moderation, and daily private backups are active. Integration and browser checks passed; comments survived production redeployment. Run 4 has not started.
 
 Repository: [SlowMercury/video-education](https://github.com/SlowMercury/video-education)
 
 Railway project: **video-creation**.
 
-Live site: [Video Education](https://video-education-production.up.railway.app). The repository's `PROGRESS.md` records the current checkpoint. The comments interface is scheduled for Run 3.
+Live site: [Video Education](https://video-education-production.up.railway.app). The repository's `PROGRESS.md` records the current checkpoint. [Owner login](https://video-education-production.up.railway.app/#owner) is available from the footer.
 
 ## Agreed experience
 
@@ -70,7 +70,7 @@ Names are display labels, not verified identities. Remembering a visitor's name 
 
 At the end of each run, record completed work, validation results, the commit, deployment URL/status, Railway resource identifiers, any outstanding dependency, and the exact next step in the repository's progress file. Record environment variable names, never their secret values.
 
-Useful next instruction: **“Start Run 3 from the video-education plan.”**
+Useful next instruction: **“Start Run 4 from the video-education plan.”**
 
 ## Verified starting point before Run 1
 
