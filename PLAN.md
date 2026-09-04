@@ -1,10 +1,12 @@
 # Video Education — implementation plan
 
-Updated: 4 September 2026. Status: Run 1 in progress; Runs 2–4 have not started.
+Updated: 4 September 2026. Status: **Run 1 complete**; Runs 2–4 have not started.
 
 Repository: [SlowMercury/video-education](https://github.com/SlowMercury/video-education)
 
-Railway project to create: **video-creation**.
+Railway project: **video-creation**.
+
+Live site: [Video Education](https://video-education-production.up.railway.app). The first deployment succeeded and the public page and health endpoint passed verification. The repository's `PROGRESS.md` records the deployment checkpoint. Next: Run 2.
 
 ## Agreed experience
 
@@ -68,11 +70,11 @@ Names are display labels, not verified identities. Remembering a visitor's name 
 
 At the end of each run, record completed work, validation results, the commit, deployment URL/status, Railway resource identifiers, any outstanding dependency, and the exact next step in the repository's progress file. Record environment variable names, never their secret values.
 
-Useful next instruction: **“Start Run 1 from the video-education plan.”**
+Useful next instruction: **“Start Run 2 from the video-education plan.”**
 
 ## Verified starting point before Run 1
 
 - A local website with eight lessons, a separate example library, and two unique X posts already exists in `outputs/ai-video-guide/`.
 - The repository is public and accessible with push permissions. It reported a size of zero during the planning check.
 - The Railway connection works. No project named `video-creation` appeared in the project list during the planning check.
-- No repository push, Railway project creation, database creation, or deployment has been performed in this planning run.
+- Before Run 1, no repository push, Railway project creation, database creation, or deployment had been performed. Run 1 has now published the website; the database will be added in Run 2.
