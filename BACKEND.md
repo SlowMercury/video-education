@@ -1,6 +1,6 @@
 # Discussion backend
 
-The website and API share one Node.js service. PostgreSQL stores comments, owner sessions, migration history, and short-lived rate-limit counters. Visitor accounts are unnecessary. The interface is scheduled for Run 3.
+The website and API share one Node.js service. PostgreSQL stores comments, owner sessions, migration history, and short-lived rate-limit counters. Visitor accounts are unnecessary. The discussion interface and owner login are included in the website.
 
 ## Running locally
 
@@ -67,6 +67,14 @@ Owner deletion, logout, and posting also require `X-CSRF-Token`, obtained from t
 
 Guest posting is limited to 10 messages per minute and 100 per day per client IP; owner posting allows 60 per minute and 1000 per day. Login allows 5 attempts per 15 minutes per IP, with an additional global cap of 100. API requests have a 120-per-minute per-IP cap. Limits persist across application restarts and return HTTP 429 with `Retry-After`. Expired counters and sessions are removed hourly. Raw IP addresses are not stored by the application.
 
+## Discussion interface
+
+`assets/discussions.js` mounts a discussion beneath each numbered lesson and each X example. The X article carries the stable post ID; changing the order does not move its comments. Only these two assets and `index.html` are served as public files. Messages and names are inserted with `textContent`.
+
+The interface loads comments as each discussion approaches the viewport, supports pagination and replies, and retains form values when a submission fails. The same unchanged attempt reuses its request UUID; submit controls remain disabled while a request is in flight. Only the visitor's name is saved in local browser storage. Owner session and CSRF data stay in memory; the session cookie is HttpOnly.
+
+The owner screen opens from the footer or `/#owner`. Authentication is refreshed before writes. If an owner session expires, a request carrying its CSRF token is rejected rather than accepted as a guest. Deleting a parent preserves live descendant replies; a completely deleted branch disappears, including from paginated API responses.
+
 ## Tests
 
 `npm test` requires `TEST_DATABASE_URL` pointing to a disposable local PostgreSQL database with a name ending in `_test`. The suite truncates comments, sessions, and rate counters in that database. It refuses a nonlocal or differently named database.
@@ -75,7 +83,7 @@ Guest posting is limited to 10 messages per minute and 100 per day per client IP
 TEST_DATABASE_URL=postgresql://localhost:5432/video_education_test npm test
 ```
 
-Eight integration scenarios verify catalogue and pagination, reply isolation, persistence across app restarts, migration reruns, concurrent retry deduplication, owner permissions, CSRF, session expiry and revocation, validation, rate limits, the launch switch, and the real server entrypoint on a fresh temporary schema. The last test creates and removes its own temporary schema in the disposable test database.
+Nine integration scenarios verify catalogue and pagination, reply isolation, persistence across app restarts, migration reruns, concurrent retry deduplication, owner permissions, CSRF, session expiry and revocation, nested deletion visibility, validation, rate limits, public asset restrictions, the launch switch, and the real server entrypoint on a fresh temporary schema. The last test creates and removes its own temporary schema in the disposable test database.
 
 ## Operational notes
 

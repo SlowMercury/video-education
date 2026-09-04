@@ -5,7 +5,12 @@ import { transaction } from './db.mjs';
 import { HttpError, clientKey, csrfFor, digest, getOwner, randomToken, rateLimit, requireOrigin, requireOwnerCsrf, sessionCookie, sessionToken, verifyPassword } from './security.mjs';
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const pagePath = new URL('../index.html', import.meta.url);
+const publicFiles = new Map([
+  ['/', ['index.html', 'text/html']],
+  ['/index.html', ['index.html', 'text/html']],
+  ['/assets/discussions.css', ['assets/discussions.css', 'text/css']],
+  ['/assets/discussions.js', ['assets/discussions.js', 'text/javascript']]
+]);
 const headers = { 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'DENY' };
 
 function send(request, response, status, data, extra = {}) {
@@ -68,13 +73,14 @@ export function createApp({ pool, config, logger = console }) {
         response.writeHead(200, { ...headers, 'Cache-Control': 'no-store', 'Content-Type': 'text/plain; charset=utf-8' });
         response.end(request.method === 'HEAD' ? undefined : 'ok'); return;
       }
-      if (['/', '/index.html'].includes(path) && ['GET', 'HEAD'].includes(request.method)) {
-        const page = await readFile(pagePath);
-        response.writeHead(200, { ...headers, 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache', 'Content-Length': page.length });
+      if (publicFiles.has(path) && ['GET', 'HEAD'].includes(request.method)) {
+        const [file, type] = publicFiles.get(path);
+        const page = await readFile(new URL(`../${file}`, import.meta.url));
+        response.writeHead(200, { ...headers, 'Content-Type': `${type}; charset=utf-8`, 'Cache-Control': 'no-cache', 'Content-Length': page.length });
         response.end(request.method === 'HEAD' ? undefined : page); return;
       }
       if (!path.startsWith('/api/')) {
-        if (['/', '/index.html', '/healthz'].includes(path)) throw new HttpError(405, 'method_not_allowed', 'Метод не поддерживается.', { Allow: 'GET, HEAD' });
+        if (publicFiles.has(path) || path === '/healthz') throw new HttpError(405, 'method_not_allowed', 'Метод не поддерживается.', { Allow: 'GET, HEAD' });
         throw new HttpError(404, 'not_found', 'Страница не найдена.');
       }
       if (!config.enabled) throw new HttpError(503, 'discussions_disabled', 'Обсуждения скоро появятся.');
@@ -93,8 +99,12 @@ export function createApp({ pool, config, logger = console }) {
         const limitString = url.searchParams.get('limit') || '20';
         if (!/^\d{1,19}$/.test(after) || BigInt(after) > 9223372036854775807n || !/^\d{1,2}$/.test(limitString) || Number(limitString) < 1 || Number(limitString) > 50) throw new HttpError(400, 'invalid_pagination', 'Некорректные параметры страницы.');
         const limit = Number(limitString);
-        const result = await pool.query(`SELECT c.* FROM comments c WHERE c.discussion_id = $1 AND c.sequence > $2
-          AND (c.deleted_at IS NULL OR EXISTS (SELECT 1 FROM comments child WHERE child.parent_id = c.id))
+        const result = await pool.query(`WITH RECURSIVE visible AS (
+          SELECT id, parent_id FROM comments WHERE discussion_id = $1 AND deleted_at IS NULL
+          UNION
+          SELECT c.id, c.parent_id FROM comments c JOIN visible v ON c.id = v.parent_id
+        ) SELECT c.* FROM comments c JOIN visible v ON c.id = v.id
+          WHERE c.discussion_id = $1 AND c.sequence > $2
           ORDER BY c.sequence LIMIT $3`, [discussionId, after, limit + 1]);
         const more = result.rows.length > limit;
         const rows = result.rows.slice(0, limit);
@@ -129,7 +139,7 @@ export function createApp({ pool, config, logger = console }) {
         onlyFields(body, ['discussionId', 'parentId', 'displayName', 'body', 'requestId']);
         await requireDiscussion(pool, body.discussionId);
         const owner = await getOwner(request, pool, config);
-        if (owner) requireOwnerCsrf(request, owner);
+        if (owner || request.headers['x-csrf-token']) requireOwnerCsrf(request, owner);
         const name = owner ? config.ownerName : textField(body.displayName, 'Имя', 60, true);
         const message = textField(body.body, 'Сообщение', 5000);
         const parentId = body.parentId ?? null;

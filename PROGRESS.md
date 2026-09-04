@@ -4,7 +4,7 @@ Updated: 4 September 2026.
 
 ## Current status
 
-**Runs 1 and 2 are complete.** PostgreSQL and the comments API are deployed. Eight integration scenarios and the backup retention test pass. The first private backup completed successfully. The public discussion switch is off; the interface will be added in Run 3.
+**Runs 1 and 2 are complete; Run 3 is being published.** The discussion interface and owner login are implemented. Nine integration scenarios pass. Local browser checks passed for visitor posts, replies, owner login, deletion, pagination, mobile layout, and a connection failure with draft recovery. The deployment and public persistence checks are the remaining Run 3 gate.
 
 ## Run 2 checkpoint
 

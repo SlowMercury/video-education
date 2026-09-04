@@ -108,9 +108,26 @@ test('sessions expire, logout revokes them, credential changes invalidate them a
   config.ownerPasswordHash = previousHash;
   await pool.query("UPDATE owner_sessions SET expires_at = now() - interval '1 second'");
   assert.equal((await call('/api/owner/session', { cookie: owner.cookie })).data.isOwner, false);
+  assert.equal((await call('/api/comments', { method: 'POST', ...owner, body: message() })).status, 401);
+  assert.equal((await pool.query('SELECT count(*) FROM comments')).rows[0].count, '0');
   assert.match(sessionCookie('token', { cookieName: '__Host-owner_session', secureCookies: true }), /Path=\/; HttpOnly; SameSite=Strict; Max-Age=604800; Secure/);
   const stored = (await pool.query('SELECT token_hash FROM owner_sessions')).rows[0].token_hash;
   assert.notEqual(stored, owner.cookie.split('=')[1]);
+});
+
+test('deleted reply chains retain live descendants, and vanish once the last reply is deleted', async () => {
+  const parent = (await call('/api/comments', { method: 'POST', body: message() })).data.comment;
+  const child = (await call('/api/comments', { method: 'POST', body: message({ parentId: parent.id }) })).data.comment;
+  const grandchild = (await call('/api/comments', { method: 'POST', body: message({ parentId: child.id }) })).data.comment;
+  const owner = await login();
+  for (const comment of [parent, child]) assert.equal((await call(`/api/comments/${comment.id}`, { method: 'DELETE', ...owner })).status, 200);
+  const first = (await call('/api/comments?discussionId=lesson:idea&limit=1')).data;
+  assert.equal(first.comments[0].id, parent.id);
+  assert.ok(first.comments[0].deletedAt);
+  assert.equal((await call(`/api/comments?discussionId=lesson:idea&after=${first.nextCursor}`)).data.comments.at(-1).id, grandchild.id);
+  assert.equal((await call(`/api/comments/${grandchild.id}`, { method: 'DELETE', ...owner })).status, 200);
+  const empty = (await call('/api/comments?discussionId=lesson:idea')).data;
+  assert.deepEqual(empty, { comments: [], nextCursor: null });
 });
 
 test('validation rejects malformed input and cross-site writes while preserving literal message text', async () => {
@@ -144,9 +161,15 @@ test('launch switch keeps API closed and course available; private files stay pr
   try {
     assert.equal((await call('/')).status, 200);
     assert.equal((await call('/healthz')).data, 'ok');
+    const script = await call('/assets/discussions.js');
+    assert.equal(script.status, 200);
+    assert.match(script.headers.get('content-type'), /^text\/javascript/);
+    assert.equal((await call('/assets/discussions.css')).status, 200);
+    assert.equal((await call('/assets/discussions.js', { method: 'POST' })).status, 405);
+    assert.equal((await call('/assets/discussions.css', { method: 'HEAD' })).data, '');
     assert.equal((await call('/api/discussions')).data.error.code, 'discussions_disabled');
     assert.equal((await call('/api/comments', { method: 'POST', body: message() })).status, 503);
-    for (const path of ['/src/config.mjs', '/.env', '/migrations/001_discussions.sql', '/PROGRESS.md']) assert.equal((await call(path)).status, 404);
+    for (const path of ['/src/config.mjs', '/.env', '/migrations/001_discussions.sql', '/PROGRESS.md', '/assets/../server.mjs', '/assets/%2e%2e/server.mjs']) assert.equal((await call(path)).status, 404);
   } finally { config.enabled = true; }
 });
 

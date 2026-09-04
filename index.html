@@ -8,6 +8,8 @@
   <meta name="twitter:dnt" content="on">
   <script>document.documentElement.classList.add('js');</script>
   <title>Видео с ИИ — практическое руководство</title>
+  <link rel="stylesheet" href="assets/discussions.css">
+  <script defer src="assets/discussions.js"></script>
   <style>
     :root{--paper:#101113;--ink:#ededee;--muted:#a5aab4;--line:#2b2f35;--wash:#191c21;--accent:#aec5ff;--accent-wash:#1d293f;--max:1280px}
     *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:17px;line-height:1.7}a{color:var(--accent);text-underline-offset:4px}a:hover{text-decoration-thickness:2px}button{font:inherit}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:5px}h1,h2,h3,p{margin-top:0}h1,h2,h3{line-height:1.2;letter-spacing:-.03em}h1{font-size:clamp(2.5rem,5vw,4.6rem);margin-bottom:20px}h2{font-size:clamp(1.85rem,3vw,2.55rem);margin-bottom:20px}h3{font-size:1.18rem;margin-bottom:12px}p{margin-bottom:18px}ul,ol{padding-left:1.3em}li{padding-left:.2em;margin:6px 0}strong{font-weight:650}[hidden]{display:none!important}
@@ -109,7 +111,22 @@
       <section class="lesson" id="examples"><div class="lesson-top">Смотрим и разбираем</div><h1>Библиотека примеров</h1><p>От черновой сцены до готового ролика. Смотрите исходные посты, сравнивайте движение и пробуйте повторить приём в своей сцене.</p><div id="example-library"></div><div class="empty-examples" id="examples-empty"><h3>Подборка примеров готовится</h3><p>Здесь появятся посты с видео, пояснениями и ссылками на соответствующие главы.</p></div><noscript><p>Для встроенных постов нужен JavaScript. Оригиналы: <a href="https://x.com/reidhannaford/status/2070145120658137385">пост от 25 июня</a> и <a href="https://x.com/reidhannaford/status/2071595581508563168">пост от 29 июня</a>.</p></noscript></section>
     </main>
   </div>
-  <footer class="footer"><span>Видео с ИИ · Практическое руководство</span><a href="#main">В начало ↑</a></footer>
+  <footer class="footer"><span>Видео с ИИ · Практическое руководство</span><nav aria-label="Дополнительная навигация"><a href="#owner" id="owner-link">Вход для автора</a><a href="#main">В начало ↑</a></nav></footer>
+  <noscript><p class="note" style="padding:0 22px">Чтобы читать обсуждения и оставлять вопросы, включите JavaScript.</p></noscript>
+  <dialog id="owner-dialog" class="discussion-dialog" aria-labelledby="owner-title">
+    <div class="discussion-heading"><h2 id="owner-title">Вход для автора</h2><button type="button" class="discussion-link" id="owner-close" aria-label="Закрыть вход для автора">Закрыть</button></div>
+    <p class="discussion-help">Для ответов с отметкой автора и управления комментариями.</p>
+    <form id="owner-form">
+      <label class="discussion-field" for="owner-password">Пароль<input id="owner-password" name="password" type="password" autocomplete="current-password" maxlength="256" required></label>
+      <button class="discussion-button" type="submit" id="owner-submit">Войти</button>
+    </form>
+    <div id="owner-account" hidden><p id="owner-identity"></p><p class="discussion-help">Под сообщениями доступны кнопки «Ответить» и «Удалить».</p><button class="discussion-button" type="button" id="owner-logout">Выйти</button></div>
+    <p id="owner-status" class="discussion-status" role="status" aria-live="polite"></p>
+  </dialog>
+  <dialog id="delete-dialog" class="discussion-dialog" aria-labelledby="delete-title">
+    <h2 id="delete-title">Удалить сообщение?</h2><p class="discussion-help">Имя и текст будут удалены. Ответы останутся в обсуждении.</p><blockquote id="delete-preview"></blockquote>
+    <form method="dialog" class="discussion-actions"><button class="discussion-button" value="cancel" autofocus>Отмена</button><button class="discussion-button discussion-danger" value="delete">Удалить сообщение</button></form>
+  </dialog>
 
   <script id="x-examples" type="application/json">
   [
@@ -137,6 +154,7 @@
     (() => {
       'use strict';
       function updateView(scrollToTarget=false) {
+        if(location.hash==='#owner')return;
         const isLibrary=location.hash==='#examples'||location.hash.startsWith('#example-');
         document.body.classList.toggle('library-view',isLibrary);
         document.title=isLibrary?'Примеры — Видео с ИИ':'Видео с ИИ — практическое руководство';
@@ -197,7 +215,7 @@
         try {
           const post=parsePost(example.url);
           const chapter=Object.hasOwn(chapterNames,example.lesson)?example.lesson:null;
-          const article=element('article','example');article.id='example-'+(index+1);
+          const article=element('article','example');article.id='example-'+(index+1);article.dataset.discussionId='x:'+post.id;
           article.append(element('p','example-kind',chapter?chapterNames[chapter]:'Разбор'));
           article.append(element('h3','',example.title||'Пример из X'));
           const layout=element('div','example-layout');
