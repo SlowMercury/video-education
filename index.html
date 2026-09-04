@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Практическое руководство по созданию видео с ИИ: идея, персонажи, промпты, движение камеры, референсы в Blender и разборы примеров.">
+  <meta name="twitter:dnt" content="on">
+  <script>document.documentElement.classList.add('js');</script>
+  <title>Видео с ИИ — практическое руководство</title>
+  <style>
+    :root{--paper:#101113;--ink:#ededee;--muted:#a5aab4;--line:#2b2f35;--wash:#191c21;--accent:#aec5ff;--accent-wash:#1d293f;--max:1280px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:17px;line-height:1.7}a{color:var(--accent);text-underline-offset:4px}a:hover{text-decoration-thickness:2px}button{font:inherit}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:5px}h1,h2,h3,p{margin-top:0}h1,h2,h3{line-height:1.2;letter-spacing:-.03em}h1{font-size:clamp(2.5rem,5vw,4.6rem);margin-bottom:20px}h2{font-size:clamp(1.85rem,3vw,2.55rem);margin-bottom:20px}h3{font-size:1.18rem;margin-bottom:12px}p{margin-bottom:18px}ul,ol{padding-left:1.3em}li{padding-left:.2em;margin:6px 0}strong{font-weight:650}[hidden]{display:none!important}
+    .skip{position:absolute;top:-100px;left:20px;padding:10px 18px;background:var(--ink);color:white;z-index:9}.skip:focus{top:10px}.topbar{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line)}.topbar-inner{max-width:var(--max);min-height:75px;margin:auto;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font-weight:750;font-size:1.1rem;letter-spacing:-.03em;text-decoration:none;color:var(--ink)}.brand-mark{color:var(--accent);margin-right:10px}.top-links{display:flex;gap:24px;font-size:.9rem}.top-links a{color:var(--muted);text-decoration:none}.shell{max-width:var(--max);margin:auto;padding:56px 32px 0;display:grid;grid-template-columns:230px minmax(0,1fr);gap:64px}.sidebar{align-self:start;position:sticky;top:113px;max-height:calc(100vh - 135px);overflow:auto}.eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}.sidebar ol{list-style:none;margin:0;padding:0}.sidebar li{padding:0;margin:3px 0}.sidebar a{display:flex;align-items:baseline;gap:12px;padding:9px 12px;border-radius:6px;text-decoration:none;color:var(--muted);line-height:1.4;font-size:.9rem}.sidebar a:hover{background:var(--wash);color:var(--ink)}.sidebar a[aria-current="location"]{background:var(--accent-wash);color:var(--accent);font-weight:600}.nav-number{font-size:.78rem;font-variant-numeric:tabular-nums;opacity:.75}.sidebar-tail{border-top:1px solid var(--line);margin-top:21px;padding-top:17px}.mobile-contents{display:none}main{min-width:0}.intro{padding-bottom:46px}.intro p{max-width:660px;font-size:1.1rem;color:var(--muted)}.intro .eyebrow{font-size:.8rem;color:var(--accent)}.route{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 0;padding:0;list-style:none;font-size:.85rem;color:var(--muted)}.route li{padding:0;margin:0}.route li:not(:last-child)::after{content:'→';display:inline-block;margin-left:8px;color:#8c97a3}.lesson{border-top:1px solid var(--line);padding:45px 0 46px;scroll-margin-top:100px}.lesson-top{display:flex;align-items:center;gap:12px;color:var(--accent);font-size:.8rem;font-weight:700;margin-bottom:14px;letter-spacing:.055em;text-transform:uppercase}.chapter-number{font-variant-numeric:tabular-nums}.lesson-body{max-width:740px}.lesson-body>p:first-child{font-size:1.08rem}.practice{margin-top:26px;padding-left:20px;border-left:3px solid var(--accent)}.practice-label{color:var(--accent);font-size:.82rem;font-weight:700;margin-bottom:5px}.practice p:last-child{margin-bottom:0}.terms{display:grid;grid-template-columns:1fr 1fr;gap:20px 28px;margin:24px 0}.terms div{border-top:1px solid var(--line);padding-top:14px}.terms dt{font-weight:650;margin-bottom:3px}.terms dd{margin:0;color:var(--muted);font-size:.94rem}.prompt{margin:24px 0;padding:22px 25px;background:var(--wash);border:1px solid var(--line);border-radius:8px;white-space:pre-wrap;overflow-wrap:anywhere;font: .92rem/1.75 ui-monospace,SFMono-Regular,Consolas,monospace}.note{color:var(--muted);font-size:.92rem}.steps{counter-reset:step;list-style:none;padding:0;margin:26px 0}.steps li{counter-increment:step;position:relative;padding:0 0 0 38px;margin:16px 0}.steps li::before{content:counter(step);position:absolute;left:0;top:0;width:25px;height:25px;line-height:25px;text-align:center;font-size:.82rem;font-weight:700;background:var(--accent-wash);color:var(--accent);border-radius:50%}.tools{width:100%;border-collapse:collapse;font-size:.94rem;margin-top:24px}.tools th,.tools td{text-align:left;padding:14px 16px 14px 0;border-bottom:1px solid var(--line);vertical-align:top}.tools th{font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}.tools td:first-child{width:43%}.example-list{margin-top:32px}.example{padding:26px 0;border-top:1px solid var(--line)}.example-layout{display:grid;grid-template-columns:minmax(0,550px) minmax(190px,1fr);gap:28px}.example-media{min-width:0}.example-notes h3{font-size:1rem;line-height:1.45;letter-spacing:0;margin-bottom:8px}.example-notes p{font-size:.92rem;color:var(--muted);margin-bottom:20px}.example-caption{font-size:.85rem;margin-top:10px}.embed-status{font-size:.9rem;color:var(--muted)}.embed-mount{min-width:0;min-height:160px}.embed-mount:empty{background:var(--wash);border-radius:8px}.embed-mount .twitter-tweet{margin:0!important}.empty-examples{border:1px dashed #b6c2d2;border-radius:8px;padding:30px;margin-top:24px}.empty-examples h3{font-size:1.1rem}.empty-examples p{font-size:.95rem;color:var(--muted);max-width:620px;margin-bottom:0}.example-kind{font-size:.78rem;color:var(--accent);font-weight:600;margin-bottom:12px}.footer{max-width:var(--max);margin:40px auto 0;padding:25px 32px 36px;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem;display:flex;justify-content:space-between;gap:16px}.footer a{color:var(--muted)}
+    @media(min-width:1050px){.example-list.has-examples{max-width:900px}}@media(max-width:1000px){.shell{gap:36px;grid-template-columns:190px minmax(0,1fr)}.example-layout{grid-template-columns:1fr}.example-notes{max-width:600px}}@media(max-width:760px){html{scroll-padding-top:85px}.topbar-inner{min-height:65px;padding:12px 20px}.top-links{gap:16px;font-size:.85rem}.shell{display:block;padding:30px 22px 0}.sidebar{display:none}.mobile-contents{display:block;margin-bottom:30px;border-bottom:1px solid var(--line);padding-bottom:16px}.mobile-contents summary{cursor:pointer;font-weight:600}.mobile-contents ol{font-size:.95rem}.intro{padding-bottom:28px}.intro p{font-size:1rem}.lesson{padding:34px 0}.terms{grid-template-columns:1fr}.prompt{padding:17px;font-size:.85rem}.footer{padding:22px;flex-wrap:wrap}.empty-examples{padding:22px}.tools td:first-child{width:46%}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}@media print{.topbar,.sidebar,.mobile-contents,.skip{display:none}.shell{display:block;max-width:none;padding:0}body{font-size:11pt}.lesson{padding:20px 0}.intro{padding:0}h1{font-size:28pt}h2{font-size:20pt}.prompt,.practice{break-inside:avoid}.footer{padding:16px 0}.embed-mount:empty{display:none}}
+    .topbar{background:rgba(16,17,19,.97)}.top-links a[aria-current="page"]{color:var(--ink)}.top-links a:hover{color:var(--ink)}.skip{background:var(--accent);color:#101113}.empty-examples{border-color:#454c57}.js #examples{display:none}.js .library-view #examples{display:block}.library-view .sidebar,.library-view .mobile-contents,.library-view .intro,.library-view .lesson:not(#examples){display:none}.library-view .shell{display:block;max-width:1140px}.library-view #examples{border-top:0;padding-top:0}.library-view #examples>p{max-width:710px;color:var(--muted)}.library-view #examples h1{font-size:clamp(2.3rem,5vw,3.8rem);margin-bottom:20px}.library-view .example{padding:40px 0 50px}.library-view .example>h3{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:24px}.library-view .example-layout{grid-template-columns:minmax(0,560px) minmax(220px,1fr);gap:48px}.library-view .example-notes{padding-top:7px}.example-author{font-size:.85rem;color:var(--muted);margin-top:12px}.lesson-examples-link{display:inline-block;margin-top:25px;font-size:.95rem}@media(max-width:880px){.library-view .example-layout{grid-template-columns:1fr;gap:22px}.library-view .example-media{max-width:560px;width:100%}.library-view .example{padding:30px 0}.library-view .shell{padding-top:34px}}@media print{:root{--paper:#fff;--ink:#111;--muted:#444;--line:#ddd;--wash:#f6f6f6;--accent:#222;--accent-wash:#eee}.js #examples{display:block}.library-view .intro,.library-view .lesson:not(#examples){display:block}.example-layout,.library-view .example-layout{display:block}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Перейти к материалу</a>
+  <header class="topbar"><div class="topbar-inner">
+    <a class="brand" href="#main"><span class="brand-mark" aria-hidden="true">↗</span>Видео с ИИ</a>
+    <nav class="top-links" aria-label="Основная навигация"><a href="#idea" data-page="lessons">Уроки</a><a href="#examples" data-page="examples">Примеры</a></nav>
+  </div></header>
+  <div class="shell">
+    <aside class="sidebar"><p class="eyebrow">Содержание</p><nav aria-label="Главы руководства"><ol>
+      <li><a href="#idea"><span class="nav-number">01</span>Идея и сцена</a></li>
+      <li><a href="#first-frame"><span class="nav-number">02</span>Первый кадр</a></li>
+      <li><a href="#character"><span class="nav-number">03</span>Персонаж</a></li>
+      <li><a href="#prompt"><span class="nav-number">04</span>Промпт для видео</a></li>
+      <li><a href="#motion"><span class="nav-number">05</span>Движение и Blender</a></li>
+      <li><a href="#storyboard"><span class="nav-number">06</span>Раскадровка</a></li>
+      <li><a href="#generation"><span class="nav-number">07</span>Генерация и отбор</a></li>
+      <li><a href="#editing"><span class="nav-number">08</span>Редактирование</a></li>
+    </ol><div class="sidebar-tail"><a href="#tools">Инструменты</a><a href="#examples">Разборы примеров</a></div></nav></aside>
+    <main id="main">
+      <details class="mobile-contents"><summary>Содержание руководства</summary><ol>
+        <li><a href="#idea">Идея и сцена</a></li><li><a href="#first-frame">Первый кадр</a></li><li><a href="#character">Персонаж</a></li><li><a href="#prompt">Промпт для видео</a></li><li><a href="#motion">Движение и Blender</a></li><li><a href="#storyboard">Раскадровка</a></li><li><a href="#generation">Генерация и отбор</a></li><li><a href="#editing">Редактирование</a></li><li><a href="#examples">Разборы примеров</a></li>
+      </ol></details>
+      <div class="intro"><p class="eyebrow">Практическое руководство</p><h1>Видео с ИИ</h1><p>Как превратить идею в сцену, сохранить внешность героя и задать движение камеры. Разбираем процесс по шагам, затем применяем приёмы к своим роликам.</p><ol class="route" aria-label="Этапы работы"><li>Идея</li><li>Кадр</li><li>Движение</li><li>Генерация</li><li>Отбор</li></ol></div>
+
+      <section class="lesson" id="idea"><div class="lesson-top"><span class="chapter-number">01</span>Замысел</div><h2>Сначала решите, что происходит в кадре</h2><div class="lesson-body">
+        <p>Для первого ролика выберите одну короткую сцену с понятным действием. Чем яснее замысел, тем легче понять, получился ли нужный результат.</p>
+        <dl class="terms"><div><dt>Герой и действие</dt><dd>Кто находится в сцене и что именно делает?</dd></div><div><dt>Камера</dt><dd>Откуда смотрим, куда движемся и с какой скоростью?</dd></div><div><dt>Место и свет</dt><dd>Где происходит сцена, какое время суток и настроение?</dd></div><div><dt>Стиль</dt><dd>Реалистичное кино, анимация или другой визуальный подход?</dd></div></dl>
+        <div class="practice"><p class="practice-label">Попробуйте</p><p>Опишите сцену в трёх предложениях: что мы видим в начале, что меняется и чем заканчивается кадр.</p></div>
+      </div></section>
+
+      <section class="lesson" id="first-frame"><div class="lesson-top"><span class="chapter-number">02</span>Изображение</div><h2>Подготовьте первый кадр</h2><div class="lesson-body">
+        <p>В работе с генерацией видео из изображения первый кадр задаёт композицию, героя, окружение и свет. Сначала добейтесь нужного изображения, затем переходите к движению.</p>
+        <ol class="steps"><li>Опишите героя, место, крупность плана и освещение.</li><li>Создайте несколько вариантов начального изображения.</li><li>Выберите кадр, в котором уже читается ваша идея.</li><li>Проверьте детали: лицо, руки, одежду, фон и положение предметов.</li></ol>
+        <div class="practice"><p class="practice-label">Попробуйте</p><p>Сделайте три варианта одного кадра. Выберите лучший и запишите, почему именно он подходит для вашей сцены.</p></div>
+      </div></section>
+
+      <section class="lesson" id="character"><div class="lesson-top"><span class="chapter-number">03</span>Внешность героя</div><h2>Соберите лист персонажа</h2><div class="lesson-body">
+        <p><strong>Character sheet</strong> — лист или серия изображений одного героя с разных сторон. Такой референс помогает показать модели внешность, одежду и характерные детали персонажа.</p>
+        <p>Подготовьте вид спереди, сбоку и сзади, крупный план лица и несколько выражений. Во всех изображениях должны сохраняться одни и те же черты.</p>
+        <p>Если используете свою фотографию, отдельно проверяйте сходство. Красивое изображение ещё не означает, что лицо осталось узнаваемым.</p>
+        <div class="practice"><p class="practice-label">Попробуйте</p><p>Создайте лист героя и сравните все ракурсы. Найдите детали, которые меняются: причёску, форму лица, одежду или аксессуары.</p></div>
+      </div></section>
+
+      <section class="lesson" id="prompt"><div class="lesson-top"><span class="chapter-number">04</span>Описание сцены</div><h2>Объясните движение в промпте</h2><div class="lesson-body">
+        <p>Промпт должен описывать действие во времени: что делает герой, как ведёт себя камера и какой результат нужен. Текстовый помощник может задать уточняющие вопросы и собрать описание из вашей идеи.</p>
+        <h3>Шаблон для подготовки промпта</h3>
+        <pre class="prompt">Я хочу создать видео о [подробное описание идеи].
+Буду использовать [модель и режим генерации].
+Продолжительность: [количество секунд].
+
+Первый кадр: [что уже изображено].
+Действие героя: [что происходит].
+Движение камеры: [направление, скорость, крупность плана].
+Окружение, свет и стиль: [описание].
+
+Задавай вопросы, чтобы уточнить мой замысел.
+Затем помоги написать промпт и предложи, что можно улучшить.</pre>
+        <details><summary>Пример промпта для полёта камеры</summary><pre class="prompt" lang="en">Immersive first-person flying camera perspective, no visible drone or flying device. The camera dives through an ancient jungle temple swallowed by storm clouds, racing between vines, stone statues, waterfalls, and glowing ruins. At the end, the temple opens into a massive underground sun, releasing golden shockwaves and levitating stone rings. Continuous POV shot, no cuts, aggressive banking, cinematic motion blur, volumetric mist, high-end fantasy VFX.</pre></details>
+        <div class="practice"><p class="practice-label">Попробуйте</p><p>Напишите два промпта для одной сцены: с неподвижной камерой и с движущейся. Сравните, как меняется впечатление от ролика.</p></div>
+      </div></section>
+
+      <section class="lesson" id="motion"><div class="lesson-top"><span class="chapter-number">05</span>Управление движением</div><h2>Покажите траекторию через референс</h2><div class="lesson-body">
+        <p>Если положение героя или движение камеры важно для сцены, подготовьте простой видеореференс. В Blender можно собрать черновую сцену и показать, как объекты должны перемещаться.</p>
+        <p>Для такого референса достаточно простых форм. Его задача — объяснить расположение объектов, темп действия и движение камеры.</p>
+        <ol class="steps"><li>Разместите героя и основные объекты.</li><li>Задайте траекторию героя и камеры.</li><li>Сделайте короткую черновую анимацию.</li><li>Передайте её вместе с остальными материалами в модель, которая поддерживает видеореференсы.</li></ol>
+        <div class="practice"><p class="practice-label">Попробуйте</p><p>Сравните одну сцену с текстовым описанием движения и с видеореференсом. Посмотрите, насколько точно сохраняются траектория и момент действия.</p></div>
+      </div><a class="lesson-examples-link" href="#examples">Разборы сцен с референсами из Blender →</a></section>
+
+      <section class="lesson" id="storyboard"><div class="lesson-top"><span class="chapter-number">06</span>Последовательность</div><h2>Разложите сцену на ключевые кадры</h2><div class="lesson-body">
+        <p><strong>Storyboard, или раскадровка,</strong> — последовательность изображений, которая показывает развитие сцены. Она помогает заранее связать действие, ракурсы и переходы.</p>
+        <p>Начните с трёх кадров: исходная ситуация, основное действие и финал. Если в сцене несколько планов, опишите движение камеры для каждого.</p>
+        <p class="note">Способ использования раскадровки зависит от модели: иногда кадры можно передать вместе, иногда удобнее генерировать отдельные планы.</p>
+        <div class="practice"><p class="practice-label">Попробуйте</p><p>Нарисуйте или сгенерируйте три ключевых кадра. Проверьте, можно ли понять действие без поясняющего текста.</p></div>
+      </div></section>
+
+      <section class="lesson" id="generation"><div class="lesson-top"><span class="chapter-number">07</span>Генерация</div><h2>Сравнивайте варианты по одной задаче</h2><div class="lesson-body">
+        <p>Соберите материалы: первый кадр, описание движения, лист персонажа и при необходимости видеореференс. Используйте те виды входных данных, которые поддерживает выбранный инструмент.</p>
+        <p>Получите несколько вариантов в пределах своего бюджета. При отборе оценивайте не только красоту изображения, но и точность выполнения сцены.</p>
+        <ul><li>Сохранилась ли внешность персонажа?</li><li>Выглядят ли движения тела естественно?</li><li>Следует ли камера нужной траектории?</li><li>Нет ли внезапных изменений объектов и окружения?</li><li>Читается ли основное действие?</li></ul>
+        <div class="practice"><p class="practice-label">Попробуйте</p><p>Найдите одну главную проблему в результате. Измените связанный с ней параметр и сравните новую версию с предыдущей.</p></div>
+      </div></section>
+
+      <section class="lesson" id="editing"><div class="lesson-top"><span class="chapter-number">08</span>Доработка</div><h2>Определите, что изменить в готовом ролике</h2><div class="lesson-body">
+        <p>В режиме редактирования исходное видео становится основой следующей версии. Заранее разделите элементы, которые должны измениться, и те, которые нужно сохранить.</p>
+        <p>Например: изменить окружение, сохранив действие героя и движение камеры. После обработки сравните обе версии целиком, включая переходы и мелкие детали.</p>
+        <p class="note">Перед работой проверьте, поддерживает ли выбранная модель нужный тип редактирования и длительность исходного видео.</p>
+        <div class="practice"><p class="practice-label">Попробуйте</p><p>Возьмите короткий ролик и сформулируйте одну конкретную правку. Запишите, что должно остаться неизменным.</p></div>
+      </div></section>
+
+      <section class="lesson" id="tools"><div class="lesson-top">Подготовка к работе</div><h2>Подбирайте инструмент под задачу</h2><div class="lesson-body"><p>Важен весь процесс: подготовка сцены, понятные референсы и внимательный отбор результата.</p><table class="tools"><thead><tr><th scope="col">Задача</th><th scope="col">Инструменты для разбора</th></tr></thead><tbody><tr><td>Идея и текст промпта</td>ChatGPT, Claude</td></tr><tr><td>Кадр и персонаж</td>ChatGPT Images, NanoBanana, Midjourney</td></tr><tr><td>Анимация референса</td>Blender</td></tr><tr><td>Генерация видео</td>Seedance, Grok; доступные модели на Higgsfield</td></tr></tbody></table><p class="note" style="margin-top:18px">Возможности, названия режимов и состав подписок меняются. Для каждого примера важно указывать модель, её версию и использованные исходники.</p></div></section>
+
+      <section class="lesson" id="examples"><div class="lesson-top">Смотрим и разбираем</div><h1>Библиотека примеров</h1><p>От черновой сцены до готового ролика. Смотрите исходные посты, сравнивайте движение и пробуйте повторить приём в своей сцене.</p><div id="example-library"></div><div class="empty-examples" id="examples-empty"><h3>Подборка примеров готовится</h3><p>Здесь появятся посты с видео, пояснениями и ссылками на соответствующие главы.</p></div><noscript><p>Для встроенных постов нужен JavaScript. Оригиналы: <a href="https://x.com/reidhannaford/status/2070145120658137385">пост от 25 июня</a> и <a href="https://x.com/reidhannaford/status/2071595581508563168">пост от 29 июня</a>.</p></noscript></section>
+    </main>
+  </div>
+  <footer class="footer"><span>Видео с ИИ · Практическое руководство</span><a href="#main">В начало ↑</a></footer>
+
+  <script id="x-examples" type="application/json">
+  [
+    {
+      "url": "https://x.com/reidhannaford/status/2070145120658137385",
+      "lesson": "motion",
+      "title": "Сложная сцена из простых форм",
+      "author": "Reid Hannaford · 25 июня 2026",
+      "watchFor": "Сопоставьте постановку в Blender и результат генерации: положение персонажей, ключевые действия и движение камеры. Автор описывает связку из первого кадра в Midjourney, черновой анимации и Seedance.",
+      "practice": "Соберите короткое действие из простых форм в Blender. Сделайте первый кадр в выбранном стиле и используйте оба референса для генерации. Сравните задуманное движение с результатом."
+    },
+    {
+      "url": "https://x.com/reidhannaford/status/2071595581508563168",
+      "lesson": "motion",
+      "title": "Постановка сцены засады",
+      "author": "Reid Hannaford · 29 июня 2026",
+      "watchFor": "Автор пробует использовать черновую анимацию для сцены засады в Seedance 2.0. Проследите отдельно за героями и камерой: где начинается каждое действие и насколько ясно оно читается.",
+      "practice": "Разбейте свою сцену на три момента: до действия, ключевое движение и завершение. Сначала настройте последовательность в Blender, затем сравните её с генерацией."
+    }
+  ]
+  </script>
+  <script>
+    // Добавление примеров: заполните JSON в script#x-examples.
+    // Поля: url, lesson, title, watchFor, practice. Подробности — в README.md.
+    (() => {
+      'use strict';
+      function updateView(scrollToTarget=false) {
+        const isLibrary=location.hash==='#examples'||location.hash.startsWith('#example-');
+        document.body.classList.toggle('library-view',isLibrary);
+        document.title=isLibrary?'Примеры — Видео с ИИ':'Видео с ИИ — практическое руководство';
+        document.querySelectorAll('[data-page]').forEach(link=>link.dataset.page===(isLibrary?'examples':'lessons')?link.setAttribute('aria-current','page'):link.removeAttribute('aria-current'));
+        if(scrollToTarget)requestAnimationFrame(()=>{let id;try{id=decodeURIComponent(location.hash.slice(1));}catch{return;}document.getElementById(id)?.scrollIntoView({block:'start',behavior:'auto'});});
+      }
+      window.addEventListener('hashchange',()=>updateView(true));
+      updateView();
+      const chapterNames = {idea:'Идея и сцена','first-frame':'Первый кадр',character:'Персонаж',prompt:'Промпт',motion:'Движение и Blender',storyboard:'Раскадровка',generation:'Генерация и отбор',editing:'Редактирование'};
+      const navLinks = [...document.querySelectorAll('.sidebar a[href^="#"]')];
+      if ('IntersectionObserver' in window) {
+        const activeSections = new Map();
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => activeSections.set(entry.target.id, entry.isIntersecting));
+          const active = [...document.querySelectorAll('main section')].find(section => activeSections.get(section.id));
+          if (!active) return;
+          navLinks.forEach(link => link.getAttribute('href') === '#' + active.id ? link.setAttribute('aria-current','location') : link.removeAttribute('aria-current'));
+        }, {rootMargin:'-100px 0px -55% 0px'});
+        document.querySelectorAll('main section').forEach(section => observer.observe(section));
+      }
+      function parsePost(raw) {
+        const url = new URL(raw);
+        if (url.protocol !== 'https:' || !['x.com','www.x.com','twitter.com','www.twitter.com'].includes(url.hostname) || url.username || url.password || url.port) throw new Error('Invalid X URL');
+        const match = url.pathname.match(/^\/(?:[A-Za-z0-9_]{1,15}\/status|i\/status|i\/web\/status)\/(\d+)(?:\/(?:video|photo)\/\d+)?\/?$/);
+        if (!match) throw new Error('Expected a post URL');
+        return {id:match[1],url:'https://x.com/i/status/'+match[1]};
+      }
+      function element(tag, className, text) {const node=document.createElement(tag);if(className)node.className=className;if(text)node.textContent=text;return node;}
+      let widgetPromise;
+      function loadWidgets() {
+        if (window.twttr?.widgets?.createTweet) return Promise.resolve(window.twttr);
+        if (widgetPromise) return widgetPromise;
+        widgetPromise = new Promise((resolve,reject) => {
+          const timeout=setTimeout(()=>reject(new Error('X timeout')),15000);
+          const script=document.createElement('script');
+          script.id='twitter-wjs';script.src='https://platform.x.com/widgets.js';script.async=true;script.charset='utf-8';
+          script.onload=()=>{if(window.twttr?.ready)window.twttr.ready(api=>{clearTimeout(timeout);resolve(api);});else{clearTimeout(timeout);reject(new Error('X unavailable'));}};
+          script.onerror=()=>{clearTimeout(timeout);reject(new Error('X unavailable'));};
+          document.head.append(script);
+        });
+        return widgetPromise;
+      }
+      async function renderPost(post,mount,status) {
+        let timer;
+        try {
+          const api=await loadWidgets();
+          const widget=await Promise.race([api.widgets.createTweet(post.id,mount,{theme:'dark',conversation:'none',dnt:true,lang:'ru',align:'center'}),new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('Post timeout')),20000);})]);
+          if (!widget) throw new Error('Post unavailable');
+          status.hidden=true;
+        } catch {status.textContent='Пост не загрузился. Его можно открыть по ссылке ниже.';mount.hidden=true;}
+        finally {clearTimeout(timer);}
+      }
+      let examples=[];
+      try {const value=JSON.parse(document.getElementById('x-examples').textContent);if(Array.isArray(value))examples=value;} catch {console.warn('Некорректный JSON примеров X.');}
+      const library=document.getElementById('example-library');
+      const pending=new Map();
+      examples.forEach((example,index)=>{
+        try {
+          const post=parsePost(example.url);
+          const chapter=Object.hasOwn(chapterNames,example.lesson)?example.lesson:null;
+          const article=element('article','example');article.id='example-'+(index+1);
+          article.append(element('p','example-kind',chapter?chapterNames[chapter]:'Разбор'));
+          article.append(element('h3','',example.title||'Пример из X'));
+          const layout=element('div','example-layout');
+          const media=element('div','example-media');const status=element('p','embed-status','Загрузка поста из X…');status.setAttribute('role','status');
+          const mount=element('div','embed-mount');const caption=element('p','example-caption');const source=element('a','','Открыть оригинал в X ↗');source.href=post.url;source.target='_blank';source.rel='noopener noreferrer';caption.append(source);media.append(status,mount);if(example.author)media.append(element('p','example-author',example.author));media.append(caption);
+          const notes=element('div','example-notes');
+          if(example.watchFor){notes.append(element('h3','','На что смотреть'),element('p','',example.watchFor));}
+          if(example.practice){notes.append(element('h3','','Попробуйте повторить'),element('p','',example.practice));}
+          if(chapter){const link=element('a','','Перейти к главе →');link.href='#'+chapter;notes.append(link);}
+          layout.append(media,notes);article.append(layout);library.append(article);pending.set(article,{post,mount,status});
+        } catch {console.warn('Пропущен пример с некорректной ссылкой на пост X:',index+1);}
+      });
+      if(pending.size){document.getElementById('examples-empty').hidden=true;library.classList.add('example-list','has-examples');}
+      if ('IntersectionObserver' in window) {
+        const lazy=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;const data=pending.get(entry.target);if(data){renderPost(data.post,data.mount,data.status);pending.delete(entry.target);}lazy.unobserve(entry.target);});},{rootMargin:'400px'});
+        pending.forEach((_,article)=>lazy.observe(article));
+      } else pending.forEach(data=>renderPost(data.post,data.mount,data.status));
+    })();
+  </script>
+</body>
+</html>
