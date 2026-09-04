@@ -4,7 +4,19 @@ Updated: 4 September 2026.
 
 ## Current status
 
-**Run 1 is complete.** The public site has eight lessons and a separate library with two unique X examples. Runs 2–4 have not started; comments and the database will be added in those runs.
+**Run 1 is complete. Run 2 is in progress.** PostgreSQL and the comments API are implemented, and seven integration scenarios pass against local PostgreSQL 18. Production deployment verification and a backup decision remain. The public discussion switch is off; the interface will be added in Run 3.
+
+## Run 2 checkpoint
+
+- PostgreSQL 18 service: `b58bcc9a-9273-4988-a16d-c7117b823018` (`Postgres`).
+- Persistent volume: `5c3e187c-4e46-4b0a-83d7-308406fdc303`, mounted at `/var/lib/postgresql/data`.
+- Database has private networking only; the application uses a Railway `DATABASE_URL` reference.
+- Implemented catalogue, pagination, comments, replies, idempotency, owner sessions, deletion, validation, and persistent rate limits. See `BACKEND.md`.
+- Owner password was generated and saved in a private local file outside the repository. Only the scrypt hash is configured on Railway.
+- Configured variables: `DATABASE_URL`, `NODE_ENV`, `SITE_ORIGIN`, `OWNER_PASSWORD_HASH`, `OWNER_DISPLAY_NAME`, `RATE_LIMIT_SECRET`, `DISCUSSIONS_ENABLED`, `TRUST_RAILWAY_PROXY`.
+- `DISCUSSIONS_ENABLED=false` keeps public API use closed until the UI and backups are ready.
+- Built-in scheduled backups are unavailable on the current Railway plan. The API returned `OAUTH_INSUFFICIENT_GRANT`; the signed-in dashboard explicitly says backups require Pro. The owner has been asked to choose separate scheduled database dumps in private storage or a Pro upgrade. No plan upgrade or additional backup service has been created.
+- Seven integration scenarios passed on Node.js 24.13.0 and PostgreSQL 18.6, including app restarts, concurrent retries, parent discussion checks, owner authorization, CSRF, expiry/logout, validation, and rate-limit persistence. The HTML is unchanged.
 
 ## Project
 
@@ -39,7 +51,7 @@ The commit containing this checkpoint changes documentation only; the applicatio
 
 ## Next step
 
-Start Run 2 in `PLAN.md`: add PostgreSQL, database migrations, the discussion catalogue, comments/replies API, and protected owner access. Configure scheduled backups before accepting real comments. No unresolved dependency blocks starting this run.
+Finish Run 2: verify the deployed backend and configure the selected backup approach. Then start Run 3: build the public discussion interface and protected owner login screen, verify them, and enable `DISCUSSIONS_ENABLED`. Keep the switch off until backups are configured.
 
 ## Agreed discussion behavior
 

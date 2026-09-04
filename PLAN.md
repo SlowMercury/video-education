@@ -1,12 +1,12 @@
 # Video Education — implementation plan
 
-Updated: 4 September 2026. Status: **Run 1 complete**; Runs 2–4 have not started.
+Updated: 4 September 2026. Status: **Run 1 complete; Run 2 in progress**. The backend passes integration tests; deployment verification and the backup decision remain. Runs 3–4 have not started.
 
 Repository: [SlowMercury/video-education](https://github.com/SlowMercury/video-education)
 
 Railway project: **video-creation**.
 
-Live site: [Video Education](https://video-education-production.up.railway.app). The first deployment succeeded and the public page and health endpoint passed verification. The repository's `PROGRESS.md` records the deployment checkpoint. Next: Run 2.
+Live site: [Video Education](https://video-education-production.up.railway.app). The repository's `PROGRESS.md` records the current checkpoint. The comments interface is scheduled for Run 3.
 
 ## Agreed experience
 
