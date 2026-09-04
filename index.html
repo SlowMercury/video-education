@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta name="description" content="Практическое руководство по созданию видео с ИИ: идея, персонажи, промпты, движение камеры, референсы в Blender и разборы примеров.">
-  <meta name="twitter:dnt" content="on">
   <script>document.documentElement.classList.add('js');</script>
   <title>Видео с ИИ — практическое руководство</title>
   <link rel="stylesheet" href="assets/discussions.css">
@@ -13,7 +12,7 @@
   <style>
     :root{--paper:#101113;--ink:#ededee;--muted:#a5aab4;--line:#2b2f35;--wash:#191c21;--accent:#aec5ff;--accent-wash:#1d293f;--max:1280px}
     *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:17px;line-height:1.7}a{color:var(--accent);text-underline-offset:4px}a:hover{text-decoration-thickness:2px}button{font:inherit}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:5px}h1,h2,h3,p{margin-top:0}h1,h2,h3{line-height:1.2;letter-spacing:-.03em}h1{font-size:clamp(2.5rem,5vw,4.6rem);margin-bottom:20px}h2{font-size:clamp(1.85rem,3vw,2.55rem);margin-bottom:20px}h3{font-size:1.18rem;margin-bottom:12px}p{margin-bottom:18px}ul,ol{padding-left:1.3em}li{padding-left:.2em;margin:6px 0}strong{font-weight:650}[hidden]{display:none!important}
-    .skip{position:absolute;top:-100px;left:20px;padding:10px 18px;background:var(--ink);color:white;z-index:9}.skip:focus{top:10px}.topbar{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line)}.topbar-inner{max-width:var(--max);min-height:75px;margin:auto;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font-weight:750;font-size:1.1rem;letter-spacing:-.03em;text-decoration:none;color:var(--ink)}.brand-mark{color:var(--accent);margin-right:10px}.top-links{display:flex;gap:24px;font-size:.9rem}.top-links a{color:var(--muted);text-decoration:none}.shell{max-width:var(--max);margin:auto;padding:56px 32px 0;display:grid;grid-template-columns:230px minmax(0,1fr);gap:64px}.sidebar{align-self:start;position:sticky;top:113px;max-height:calc(100vh - 135px);overflow:auto}.eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}.sidebar ol{list-style:none;margin:0;padding:0}.sidebar li{padding:0;margin:3px 0}.sidebar a{display:flex;align-items:baseline;gap:12px;padding:9px 12px;border-radius:6px;text-decoration:none;color:var(--muted);line-height:1.4;font-size:.9rem}.sidebar a:hover{background:var(--wash);color:var(--ink)}.sidebar a[aria-current="location"]{background:var(--accent-wash);color:var(--accent);font-weight:600}.nav-number{font-size:.78rem;font-variant-numeric:tabular-nums;opacity:.75}.sidebar-tail{border-top:1px solid var(--line);margin-top:21px;padding-top:17px}.mobile-contents{display:none}main{min-width:0}.intro{padding-bottom:46px}.intro p{max-width:660px;font-size:1.1rem;color:var(--muted)}.intro .eyebrow{font-size:.8rem;color:var(--accent)}.route{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 0;padding:0;list-style:none;font-size:.85rem;color:var(--muted)}.route li{padding:0;margin:0}.route li:not(:last-child)::after{content:'→';display:inline-block;margin-left:8px;color:#8c97a3}.lesson{border-top:1px solid var(--line);padding:45px 0 46px;scroll-margin-top:100px}.lesson-top{display:flex;align-items:center;gap:12px;color:var(--accent);font-size:.8rem;font-weight:700;margin-bottom:14px;letter-spacing:.055em;text-transform:uppercase}.chapter-number{font-variant-numeric:tabular-nums}.lesson-body{max-width:740px}.lesson-body>p:first-child{font-size:1.08rem}.practice{margin-top:26px;padding-left:20px;border-left:3px solid var(--accent)}.practice-label{color:var(--accent);font-size:.82rem;font-weight:700;margin-bottom:5px}.practice p:last-child{margin-bottom:0}.terms{display:grid;grid-template-columns:1fr 1fr;gap:20px 28px;margin:24px 0}.terms div{border-top:1px solid var(--line);padding-top:14px}.terms dt{font-weight:650;margin-bottom:3px}.terms dd{margin:0;color:var(--muted);font-size:.94rem}.prompt{margin:24px 0;padding:22px 25px;background:var(--wash);border:1px solid var(--line);border-radius:8px;white-space:pre-wrap;overflow-wrap:anywhere;font: .92rem/1.75 ui-monospace,SFMono-Regular,Consolas,monospace}.note{color:var(--muted);font-size:.92rem}.steps{counter-reset:step;list-style:none;padding:0;margin:26px 0}.steps li{counter-increment:step;position:relative;padding:0 0 0 38px;margin:16px 0}.steps li::before{content:counter(step);position:absolute;left:0;top:0;width:25px;height:25px;line-height:25px;text-align:center;font-size:.82rem;font-weight:700;background:var(--accent-wash);color:var(--accent);border-radius:50%}.tools{width:100%;border-collapse:collapse;font-size:.94rem;margin-top:24px}.tools th,.tools td{text-align:left;padding:14px 16px 14px 0;border-bottom:1px solid var(--line);vertical-align:top}.tools th{font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}.tools td:first-child{width:43%}.example-list{margin-top:32px}.example{padding:26px 0;border-top:1px solid var(--line)}.example-layout{display:grid;grid-template-columns:minmax(0,550px) minmax(190px,1fr);gap:28px}.example-media{min-width:0}.example-notes h3{font-size:1rem;line-height:1.45;letter-spacing:0;margin-bottom:8px}.example-notes p{font-size:.92rem;color:var(--muted);margin-bottom:20px}.example-caption{font-size:.85rem;margin-top:10px}.embed-status{font-size:.9rem;color:var(--muted)}.embed-mount{min-width:0;min-height:160px}.embed-mount:empty{background:var(--wash);border-radius:8px}.embed-mount .twitter-tweet{margin:0!important}.empty-examples{border:1px dashed #b6c2d2;border-radius:8px;padding:30px;margin-top:24px}.empty-examples h3{font-size:1.1rem}.empty-examples p{font-size:.95rem;color:var(--muted);max-width:620px;margin-bottom:0}.example-kind{font-size:.78rem;color:var(--accent);font-weight:600;margin-bottom:12px}.footer{max-width:var(--max);margin:40px auto 0;padding:25px 32px 36px;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem;display:flex;justify-content:space-between;gap:16px}.footer a{color:var(--muted)}
+    .skip{position:absolute;top:-100px;left:20px;padding:10px 18px;background:var(--ink);color:white;z-index:9}.skip:focus{top:10px}.topbar{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line)}.topbar-inner{max-width:var(--max);min-height:75px;margin:auto;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font-weight:750;font-size:1.1rem;letter-spacing:-.03em;text-decoration:none;color:var(--ink)}.brand-mark{color:var(--accent);margin-right:10px}.top-links{display:flex;gap:24px;font-size:.9rem}.top-links a{color:var(--muted);text-decoration:none}.shell{max-width:var(--max);margin:auto;padding:56px 32px 0;display:grid;grid-template-columns:230px minmax(0,1fr);gap:64px}.sidebar{align-self:start;position:sticky;top:113px;max-height:calc(100vh - 135px);overflow:auto}.eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}.sidebar ol{list-style:none;margin:0;padding:0}.sidebar li{padding:0;margin:3px 0}.sidebar a{display:flex;align-items:baseline;gap:12px;padding:9px 12px;border-radius:6px;text-decoration:none;color:var(--muted);line-height:1.4;font-size:.9rem}.sidebar a:hover{background:var(--wash);color:var(--ink)}.sidebar a[aria-current="location"]{background:var(--accent-wash);color:var(--accent);font-weight:600}.nav-number{font-size:.78rem;font-variant-numeric:tabular-nums;opacity:.75}.sidebar-tail{border-top:1px solid var(--line);margin-top:21px;padding-top:17px}.mobile-contents{display:none}main{min-width:0}.intro{padding-bottom:46px}.intro p{max-width:660px;font-size:1.1rem;color:var(--muted)}.intro .eyebrow{font-size:.8rem;color:var(--accent)}.route{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 0;padding:0;list-style:none;font-size:.85rem;color:var(--muted)}.route li{padding:0;margin:0}.route li:not(:last-child)::after{content:'→';display:inline-block;margin-left:8px;color:#8c97a3}.lesson{border-top:1px solid var(--line);padding:45px 0 46px;scroll-margin-top:100px}.lesson-top{display:flex;align-items:center;gap:12px;color:var(--accent);font-size:.8rem;font-weight:700;margin-bottom:14px;letter-spacing:.055em;text-transform:uppercase}.chapter-number{font-variant-numeric:tabular-nums}.lesson-body{max-width:740px}.lesson-body>p:first-child{font-size:1.08rem}.practice{margin-top:26px;padding-left:20px;border-left:3px solid var(--accent)}.practice-label{color:var(--accent);font-size:.82rem;font-weight:700;margin-bottom:5px}.practice p:last-child{margin-bottom:0}.terms{display:grid;grid-template-columns:1fr 1fr;gap:20px 28px;margin:24px 0}.terms div{border-top:1px solid var(--line);padding-top:14px}.terms dt{font-weight:650;margin-bottom:3px}.terms dd{margin:0;color:var(--muted);font-size:.94rem}.prompt{margin:24px 0;padding:22px 25px;background:var(--wash);border:1px solid var(--line);border-radius:8px;white-space:pre-wrap;overflow-wrap:anywhere;font: .92rem/1.75 ui-monospace,SFMono-Regular,Consolas,monospace}.note{color:var(--muted);font-size:.92rem}.steps{counter-reset:step;list-style:none;padding:0;margin:26px 0}.steps li{counter-increment:step;position:relative;padding:0 0 0 38px;margin:16px 0}.steps li::before{content:counter(step);position:absolute;left:0;top:0;width:25px;height:25px;line-height:25px;text-align:center;font-size:.82rem;font-weight:700;background:var(--accent-wash);color:var(--accent);border-radius:50%}.tools{width:100%;border-collapse:collapse;font-size:.94rem;margin-top:24px}.tools th,.tools td{text-align:left;padding:14px 16px 14px 0;border-bottom:1px solid var(--line);vertical-align:top}.tools th{font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}.tools td:first-child{width:43%}.example-list{margin-top:32px}.example{padding:26px 0;border-top:1px solid var(--line)}.example-layout{display:grid;grid-template-columns:minmax(0,550px) minmax(190px,1fr);gap:28px}.example-media{min-width:0}.example-notes h3{font-size:1rem;line-height:1.45;letter-spacing:0;margin-bottom:8px}.example-notes p{font-size:.92rem;color:var(--muted);margin-bottom:20px}.example-caption{font-size:.85rem;margin-top:10px}.embed-status{font-size:.9rem;color:var(--muted)}.embed-mount{min-width:0;min-height:160px}.embed-mount:empty{background:var(--wash);border-radius:8px}.example-video{display:block;width:100%;height:auto;max-height:75vh;object-fit:contain;background:#000;border-radius:8px}.empty-examples{border:1px dashed #b6c2d2;border-radius:8px;padding:30px;margin-top:24px}.empty-examples h3{font-size:1.1rem}.empty-examples p{font-size:.95rem;color:var(--muted);max-width:620px;margin-bottom:0}.example-kind{font-size:.78rem;color:var(--accent);font-weight:600;margin-bottom:12px}.footer{max-width:var(--max);margin:40px auto 0;padding:25px 32px 36px;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem;display:flex;justify-content:space-between;gap:16px}.footer a{color:var(--muted)}
     @media(min-width:1050px){.example-list.has-examples{max-width:900px}}@media(max-width:1000px){.shell{gap:36px;grid-template-columns:190px minmax(0,1fr)}.example-layout{grid-template-columns:1fr}.example-notes{max-width:600px}}@media(max-width:760px){html{scroll-padding-top:85px}.topbar-inner{min-height:65px;padding:12px 20px}.top-links{gap:16px;font-size:.85rem}.shell{display:block;padding:30px 22px 0}.sidebar{display:none}.mobile-contents{display:block;margin-bottom:30px;border-bottom:1px solid var(--line);padding-bottom:16px}.mobile-contents summary{cursor:pointer;font-weight:600}.mobile-contents ol{font-size:.95rem}.intro{padding-bottom:28px}.intro p{font-size:1rem}.lesson{padding:34px 0}.terms{grid-template-columns:1fr}.prompt{padding:17px;font-size:.85rem}.footer{padding:22px;flex-wrap:wrap}.empty-examples{padding:22px}.tools td:first-child{width:46%}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}@media print{.topbar,.sidebar,.mobile-contents,.skip{display:none}.shell{display:block;max-width:none;padding:0}body{font-size:11pt}.lesson{padding:20px 0}.intro{padding:0}h1{font-size:28pt}h2{font-size:20pt}.prompt,.practice{break-inside:avoid}.footer{padding:16px 0}.embed-mount:empty{display:none}}
     .topbar{background:rgba(16,17,19,.97)}.top-links a[aria-current="page"]{color:var(--ink)}.top-links a:hover{color:var(--ink)}.skip{background:var(--accent);color:#101113}.empty-examples{border-color:#454c57}.js #examples{display:none}.js .library-view #examples{display:block}.library-view .sidebar,.library-view .mobile-contents,.library-view .intro,.library-view .lesson:not(#examples){display:none}.library-view .shell{display:block;max-width:1140px}.library-view #examples{border-top:0;padding-top:0}.library-view #examples>p{max-width:710px;color:var(--muted)}.library-view #examples h1{font-size:clamp(2.3rem,5vw,3.8rem);margin-bottom:20px}.library-view .example{padding:40px 0 50px}.library-view .example>h3{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:24px}.library-view .example-layout{grid-template-columns:minmax(0,560px) minmax(220px,1fr);gap:48px}.library-view .example-notes{padding-top:7px}.example-author{font-size:.85rem;color:var(--muted);margin-top:12px}.lesson-examples-link{display:inline-block;margin-top:25px;font-size:.95rem}@media(max-width:880px){.library-view .example-layout{grid-template-columns:1fr;gap:22px}.library-view .example-media{max-width:560px;width:100%}.library-view .example{padding:30px 0}.library-view .shell{padding-top:34px}}@media print{:root{--paper:#fff;--ink:#111;--muted:#444;--line:#ddd;--wash:#f6f6f6;--accent:#222;--accent-wash:#eee}.js #examples{display:block}.library-view .intro,.library-view .lesson:not(#examples){display:block}.example-layout,.library-view .example-layout{display:block}}
   </style>
@@ -170,27 +169,39 @@ The red ball rolls from left to right behind the block, reappears on the right a
 
   <script id="x-examples" type="application/json">
   [
-    {
-      "url": "https://x.com/reidhannaford/status/2070145120658137385",
-      "lesson": "motion",
-      "title": "Сложная сцена из простых форм",
-      "author": "Reid Hannaford · 25 июня 2026",
-      "watchFor": "Сопоставьте постановку в Blender и результат генерации: положение персонажей, ключевые действия и движение камеры. Автор описывает связку из первого кадра в Midjourney, черновой анимации и Seedance.",
-      "practice": "Соберите короткое действие из простых форм в Blender. Сделайте первый кадр в выбранном стиле и используйте оба референса для генерации. Сравните задуманное движение с результатом."
-    },
-    {
-      "url": "https://x.com/reidhannaford/status/2071595581508563168",
-      "lesson": "motion",
-      "title": "Постановка сцены засады",
-      "author": "Reid Hannaford · 29 июня 2026",
-      "watchFor": "Автор пробует использовать черновую анимацию для сцены засады в Seedance 2.0. Проследите отдельно за героями и камерой: где начинается каждое действие и насколько ясно оно читается.",
-      "practice": "Разбейте свою сцену на три момента: до действия, ключевое движение и завершение. Сначала настройте последовательность в Blender, затем сравните её с генерацией."
+  {
+    "url": "https://x.com/reidhannaford/status/2070145120658137385",
+    "lesson": "motion",
+    "title": "Сложная сцена из простых форм",
+    "author": "Reid Hannaford · 25 июня 2026",
+    "watchFor": "Сопоставьте постановку в Blender и результат генерации: положение персонажей, ключевые действия и движение камеры. Автор описывает связку из первого кадра в Midjourney, черновой анимации и Seedance.",
+    "practice": "Соберите короткое действие из простых форм в Blender. Сделайте первый кадр в выбранном стиле и используйте оба референса для генерации. Сравните задуманное движение с результатом.",
+    "video": {
+      "src": "https://video.twimg.com/amplify_video/2070142533275877376/vid/avc1/720x1080/cHm-mdqoDFnOPxDp.mp4",
+      "poster": "https://pbs.twimg.com/amplify_video_thumb/2070142533275877376/img/_mxLmQfqfWbOB8wF.jpg",
+      "width": 2,
+      "height": 3
     }
-  ]
+  },
+  {
+    "url": "https://x.com/reidhannaford/status/2071595581508563168",
+    "lesson": "motion",
+    "title": "Постановка сцены засады",
+    "author": "Reid Hannaford · 29 июня 2026",
+    "watchFor": "Автор пробует использовать черновую анимацию для сцены засады в Seedance 2.0. Проследите отдельно за героями и камерой: где начинается каждое действие и насколько ясно оно читается.",
+    "practice": "Разбейте свою сцену на три момента: до действия, ключевое движение и завершение. Сначала настройте последовательность в Blender, затем сравните её с генерацией.",
+    "video": {
+      "src": "https://video.twimg.com/amplify_video/2071595269163003904/vid/avc1/720x810/XV9vGaLc9RF1zlbz.mp4",
+      "poster": "https://pbs.twimg.com/amplify_video_thumb/2071595269163003904/img/cSRHqfF6MTcEOwTh.jpg",
+      "width": 8,
+      "height": 9
+    }
+  }
+]
   </script>
   <script>
     // Добавление примеров: заполните JSON в script#x-examples.
-    // Поля: url, lesson, title, watchFor, practice. Подробности — в README.md.
+    // Поля: url, lesson, title, author, watchFor, practice, video. Подробности — в README.md.
     (() => {
       'use strict';
       function updateView(scrollToTarget=false) {
@@ -223,29 +234,22 @@ The red ball rolls from left to right behind the block, reappears on the right a
         return {id:match[1],url:'https://x.com/i/status/'+match[1]};
       }
       function element(tag, className, text) {const node=document.createElement(tag);if(className)node.className=className;if(text)node.textContent=text;return node;}
-      let widgetPromise;
-      function loadWidgets() {
-        if (window.twttr?.widgets?.createTweet) return Promise.resolve(window.twttr);
-        if (widgetPromise) return widgetPromise;
-        widgetPromise = new Promise((resolve,reject) => {
-          const timeout=setTimeout(()=>reject(new Error('X timeout')),15000);
-          const script=document.createElement('script');
-          script.id='twitter-wjs';script.src='https://platform.x.com/widgets.js';script.async=true;script.charset='utf-8';
-          script.onload=()=>{if(window.twttr?.ready)window.twttr.ready(api=>{clearTimeout(timeout);resolve(api);});else{clearTimeout(timeout);reject(new Error('X unavailable'));}};
-          script.onerror=()=>{clearTimeout(timeout);reject(new Error('X unavailable'));};
-          document.head.append(script);
-        });
-        return widgetPromise;
-      }
-      async function renderPost(post,mount,status) {
-        let timer;
+      function renderVideo(post,mount,status) {
         try {
-          const api=await loadWidgets();
-          const widget=await Promise.race([api.widgets.createTweet(post.id,mount,{theme:'dark',conversation:'none',dnt:true,lang:'ru',align:'center'}),new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('Post timeout')),20000);})]);
-          if (!widget) throw new Error('Post unavailable');
-          status.hidden=true;
-        } catch {status.textContent='Пост не загрузился. Его можно открыть по ссылке ниже.';mount.hidden=true;}
-        finally {clearTimeout(timer);}
+          const example=examples.find(item=>parsePost(item.url).id===post.id);
+          const media=example?.video;
+          if(!media)throw new Error('Missing video');
+          const src=new URL(media.src),poster=new URL(media.poster);
+          if(src.protocol!=='https:'||src.hostname!=='video.twimg.com'||src.username||src.password||src.port||!src.pathname.endsWith('.mp4'))throw new Error('Invalid video URL');
+          if(poster.protocol!=='https:'||poster.hostname!=='pbs.twimg.com'||poster.username||poster.password||poster.port)throw new Error('Invalid poster URL');
+          const video=element('video','example-video');
+          video.controls=true;video.playsInline=true;video.preload='none';
+          video.poster=poster.href;video.src=src.href;
+          video.setAttribute('aria-label',example.title);
+          if(Number.isFinite(media.width)&&media.width>0&&Number.isFinite(media.height)&&media.height>0)video.style.aspectRatio=media.width+'/'+media.height;
+          video.addEventListener('error',()=>{status.hidden=false;status.textContent='Видео не загрузилось. Откройте оригинал по ссылке ниже.';});
+          mount.append(video);status.hidden=true;
+        } catch {status.textContent='Видео недоступно. Откройте оригинал по ссылке ниже.';mount.hidden=true;}
       }
       let examples=[];
       try {const value=JSON.parse(document.getElementById('x-examples').textContent);if(Array.isArray(value))examples=value;} catch {console.warn('Некорректный JSON примеров X.');}
@@ -262,7 +266,7 @@ The red ball rolls from left to right behind the block, reappears on the right a
           article.append(element('p','example-kind',chapter?chapterNames[chapter]:'Разбор'));
           article.append(element('h3','',example.title||'Пример из X'));
           const layout=element('div','example-layout');
-          const media=element('div','example-media');const status=element('p','embed-status','Загрузка поста из X…');status.setAttribute('role','status');
+          const media=element('div','example-media');const status=element('p','embed-status','Загрузка видео…');status.setAttribute('role','status');
           const mount=element('div','embed-mount');const caption=element('p','example-caption');const source=element('a','','Открыть оригинал в X ↗');source.href=post.url;source.target='_blank';source.rel='noopener noreferrer';caption.append(source);media.append(status,mount);if(example.author)media.append(element('p','example-author',example.author));media.append(caption);
           const notes=element('div','example-notes');
           if(example.watchFor){notes.append(element('h3','','На что смотреть'),element('p','',example.watchFor));}
@@ -276,13 +280,13 @@ The red ball rolls from left to right behind the block, reappears on the right a
         const id=figure.dataset.examplePreview;
         const example=examples.find(item=>{try{return parsePost(item.url).id===id;}catch{return false;}});
         if(!example)return;
-        const post=parsePost(example.url),mount=element('div','embed-mount'),status=element('p','embed-status','Загрузка примера из X…');
+        const post=parsePost(example.url),mount=element('div','embed-mount'),status=element('p','embed-status','Загрузка видео…');
         status.setAttribute('role','status');figure.prepend(status,mount);pending.set(figure,{post,mount,status});
       });
       if ('IntersectionObserver' in window) {
-        const lazy=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;const data=pending.get(entry.target);if(data){renderPost(data.post,data.mount,data.status);pending.delete(entry.target);}lazy.unobserve(entry.target);});},{rootMargin:'400px'});
+        const lazy=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;const data=pending.get(entry.target);if(data){renderVideo(data.post,data.mount,data.status);pending.delete(entry.target);}lazy.unobserve(entry.target);});},{rootMargin:'400px'});
         pending.forEach((_,article)=>lazy.observe(article));
-      } else pending.forEach(data=>renderPost(data.post,data.mount,data.status));
+      } else pending.forEach(data=>renderVideo(data.post,data.mount,data.status));
     })();
   </script>
 </body>

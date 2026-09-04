@@ -103,3 +103,7 @@ Visitors enter a name without signing in. Everyone can read, post immediately, a
 Follow `BACKEND.md` for local database and environment setup, then use `npm run dev`. Edit the X example catalogue in `index.html` following `README.md`. Deploy changes from `main` and check `/healthz` after deployment. Use the backup service's Cron Runs page and “Run now” for an on-demand backup; successful deployment of the schedule alone does not execute a backup. Keep credentials in Railway variables; record only variable names in project documentation.
 
 For local checks, keep the browser preview database separate from the disposable `_test` database. The Run 3 preview used port 4174 and a local-only owner password. Both the preview server and local PostgreSQL cluster are stopped when verification finishes. No production credentials or raw source messages are committed or included in the source archive.
+
+## Video-only examples — 2026-09-04
+
+Replaced full X post widgets with native video players in the library and lesson preview at the owner’s request. The catalogue now holds verified remote MP4 URLs, posters, and aspect ratios; author credits, source links, and discussion IDs are preserved. No media is copied to our server. Content checks, JavaScript parsing, and HEAD requests for both videos and posters passed. X media URLs may need refreshing if the upstream source changes.
