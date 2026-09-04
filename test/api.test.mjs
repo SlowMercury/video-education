@@ -1,6 +1,9 @@
 import { test, before, beforeEach, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
+import { spawn } from 'node:child_process';
+import { createServer as portReservation } from 'node:net';
+import { once } from 'node:events';
 import { createApp } from '../src/app.mjs';
 import { createPool, migrate } from '../src/db.mjs';
 import { hashPassword, sessionCookie } from '../src/security.mjs';
@@ -145,4 +148,35 @@ test('launch switch keeps API closed and course available; private files stay pr
     assert.equal((await call('/api/comments', { method: 'POST', body: message() })).status, 503);
     for (const path of ['/src/config.mjs', '/.env', '/migrations/001_discussions.sql', '/PROGRESS.md']) assert.equal((await call(path)).status, 404);
   } finally { config.enabled = true; }
+});
+
+test('real server entrypoint initializes an empty schema before listening', async () => {
+  const schema = `boot_${randomUUID().replaceAll('-', '')}`;
+  await pool.query(`CREATE SCHEMA "${schema}"`);
+  const isolated = new URL(databaseUrl);
+  isolated.searchParams.set('options', `-c search_path=${schema}`);
+  const reservation = portReservation();
+  await new Promise(resolve => reservation.listen(0, '127.0.0.1', resolve));
+  const port = reservation.address().port;
+  await new Promise(resolve => reservation.close(resolve));
+  const child = spawn(process.execPath, ['server.mjs'], {
+    cwd: new URL('../', import.meta.url),
+    env: { ...process.env, PORT: String(port), NODE_ENV: 'test', SITE_ORIGIN: `http://127.0.0.1:${port}`, DATABASE_URL: isolated.href,
+      OWNER_PASSWORD_HASH: config.ownerPasswordHash, RATE_LIMIT_SECRET: config.rateLimitSecret, DISCUSSIONS_ENABLED: 'false' },
+    stdio: ['ignore', 'pipe', 'pipe']
+  });
+  const exit = once(child, 'exit');
+  try {
+    await new Promise((resolve, reject) => {
+      const timer = setTimeout(() => reject(new Error('Server startup timed out')), 10000);
+      child.stdout.on('data', chunk => { if (chunk.toString().includes('Website listening')) { clearTimeout(timer); resolve(); } });
+      child.once('exit', code => { clearTimeout(timer); reject(new Error(`Server exited before startup: ${code}`)); });
+    });
+    assert.equal(await (await fetch(`http://127.0.0.1:${port}/healthz`)).text(), 'ok');
+    assert.equal((await pool.query(`SELECT count(*) FROM "${schema}".discussion_items`)).rows[0].count, '10');
+  } finally {
+    if (child.exitCode === null) child.kill('SIGTERM');
+    await exit;
+    await pool.query(`DROP SCHEMA "${schema}" CASCADE`);
+  }
 });

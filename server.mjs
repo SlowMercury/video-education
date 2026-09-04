@@ -1,10 +1,11 @@
 import { createApp } from './src/app.mjs';
 import { loadConfig } from './src/config.mjs';
-import { cleanup, createPool } from './src/db.mjs';
+import { cleanup, createPool, migrate } from './src/db.mjs';
 
 const config = loadConfig();
 const pool = createPool(config.databaseUrl);
-await pool.query('SELECT version FROM schema_migrations LIMIT 1');
+// Keep startup safe even when a host skips its optional pre-deploy hook.
+await migrate(pool);
 await cleanup(pool);
 const server = createApp({ pool, config });
 const timer = setInterval(() => cleanup(pool).catch(error => console.error('Database cleanup failed', error.code)), 3600000);
