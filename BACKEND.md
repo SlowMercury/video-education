@@ -10,7 +10,7 @@ The website and API share one Node.js service. PostgreSQL stores comments, owner
 4. Run `node --env-file=.env scripts/migrate.mjs`, then `npm run dev`.
 5. Set `DISCUSSIONS_ENABLED=true` in the local environment to exercise the API.
 
-`npm start` reads environment variables supplied by the host. `npm run dev` additionally reads `.env`. Railway runs `npm run migrate` before deploying the application. Migrations are transactional, serialized with an advisory lock, and checked for changes after application.
+`npm start` reads environment variables supplied by the host. `npm run dev` additionally reads `.env`. A Railway pre-deploy hook is configured for `npm run migrate`; the server also runs the same idempotent migration at startup, so a skipped hook cannot leave a fresh deployment without its tables. Migrations are transactional, serialized with an advisory lock, and checked for changes after application.
 
 The catalogue is derived from the numbered lesson sections and the X example JSON in `index.html`. IDs are `lesson:<section-id>` and `x:<post-id>`. Titles and ordering can change without moving conversations. Removing content deactivates its discussion without deleting stored comments.
 
@@ -75,11 +75,11 @@ Guest posting is limited to 10 messages per minute and 100 per day per client IP
 TEST_DATABASE_URL=postgresql://localhost:5432/video_education_test npm test
 ```
 
-Seven integration scenarios verify catalogue and pagination, reply isolation, persistence across app restarts, migration reruns, concurrent retry deduplication, owner permissions, CSRF, session expiry and revocation, validation, rate limits, and the launch switch.
+Eight integration scenarios verify catalogue and pagination, reply isolation, persistence across app restarts, migration reruns, concurrent retry deduplication, owner permissions, CSRF, session expiry and revocation, validation, rate limits, the launch switch, and the real server entrypoint on a fresh temporary schema. The last test creates and removes its own temporary schema in the disposable test database.
 
 ## Operational notes
 
-Database: Railway PostgreSQL 18 with a persistent volume, reached through private networking. Built-in scheduled volume backups require Railway Pro; the backup approach is being selected before enabling discussions. Do not confuse persistent storage with a backup.
+Database: Railway PostgreSQL 18 with a persistent volume, reached through private networking. The separate `database-backups` service creates daily logical dumps in the private `discussion-backups` bucket, retaining 14 days. It runs at 03:00 UTC (06:00 Moscow). This uses the current plan; built-in volume snapshots and PITR are not enabled. See `backup/README.md` for verification and restore instructions.
 
 Railway reported that `railway.json` remains supported until 1 December 2026. Before that date, migrate deployment configuration to Railway's infrastructure-as-code format; include this in Run 4 maintenance.
 

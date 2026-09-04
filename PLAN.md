@@ -1,6 +1,6 @@
 # Video Education — implementation plan
 
-Updated: 4 September 2026. Status: **Run 1 complete; Run 2 in progress**. The backend passes integration tests; deployment verification and the backup decision remain. Runs 3–4 have not started.
+Updated: 4 September 2026. Status: **Runs 1 and 2 complete**. The backend is deployed, integration tests pass, and daily private backups are configured with the first dump verified. Runs 3–4 have not started.
 
 Repository: [SlowMercury/video-education](https://github.com/SlowMercury/video-education)
 
@@ -18,7 +18,7 @@ The owner can reply and delete comments through a protected owner login. Only au
 
 ## Technical approach
 
-Keep the existing HTML, CSS, JavaScript, and Node.js foundation. One Railway web service serves the website and a small comments API on the same domain. A separate PostgreSQL service stores comments and owner sessions. Connect it through Railway's private network and configure a persistent volume and scheduled backups. These are supported Railway features; backups must be configured explicitly. See [Railway PostgreSQL](https://docs.railway.com/databases/postgresql) and [backup configuration](https://docs.railway.com/guides/postgres-backups-restores).
+Keep the existing HTML, CSS, JavaScript, and Node.js foundation. One Railway web service serves the website and a small comments API on the same domain. A separate PostgreSQL service stores comments and owner sessions using private networking and a persistent volume. A scheduled service exports a daily PostgreSQL dump to a private Railway bucket at 03:00 UTC, retaining 14 days. This works on the current plan; built-in volume snapshots and PITR are not enabled. See [Railway PostgreSQL](https://docs.railway.com/databases/postgresql) and [backup configuration](https://docs.railway.com/guides/postgres-backups-restores).
 
 X videos continue to use the official embeds, with a link to the original post when the embed is unavailable. Comments on the course are independent of comments on X.
 
@@ -70,11 +70,11 @@ Names are display labels, not verified identities. Remembering a visitor's name 
 
 At the end of each run, record completed work, validation results, the commit, deployment URL/status, Railway resource identifiers, any outstanding dependency, and the exact next step in the repository's progress file. Record environment variable names, never their secret values.
 
-Useful next instruction: **“Start Run 2 from the video-education plan.”**
+Useful next instruction: **“Start Run 3 from the video-education plan.”**
 
 ## Verified starting point before Run 1
 
 - A local website with eight lessons, a separate example library, and two unique X posts already exists in `outputs/ai-video-guide/`.
 - The repository is public and accessible with push permissions. It reported a size of zero during the planning check.
 - The Railway connection works. No project named `video-creation` appeared in the project list during the planning check.
-- Before Run 1, no repository push, Railway project creation, database creation, or deployment had been performed. Run 1 has now published the website; the database will be added in Run 2.
+- Before Run 1, no repository push, Railway project creation, database creation, or deployment had been performed. Run 1 published the website; Run 2 added the database, API, owner access, and daily backups.
